@@ -1,0 +1,6 @@
+/* Dashboard specific styles */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Aquí puedes agregar estilos específicos para el dashboard */ 
