@@ -7,7 +7,7 @@ const deployedContracts = {
   devnet: {
     YourContract: {
       address:
-        "0x50555d98bb8eeb10f02233bd5264159c3518963fa1d49e78b6392a9aac8d73",
+        "0x56d5f4c6bfdb158127cffdca41a56a1d3fe069c69b1f092f79dcf88b4867a2",
       abi: [
         {
           type: "impl",
@@ -274,6 +274,564 @@ const deployedContracts = {
       ],
       classHash:
         "0x5e4c766477764df946dcce9b0d2c865468882ac572c0d3767aeb98d23cbe74b",
+    },
+    host: {
+      address:
+        "0x6ded96a0f08fdc5f0942888233f9763271fd66b9bb5adc03baa0c5f25531048",
+      abi: [
+        {
+          type: "impl",
+          name: "HostImpl",
+          interface_name: "contracts::host::IHostContract",
+        },
+        {
+          type: "struct",
+          name: "core::byte_array::ByteArray",
+          members: [
+            {
+              name: "data",
+              type: "core::array::Array::<core::bytes_31::bytes31>",
+            },
+            {
+              name: "pending_word",
+              type: "core::felt252",
+            },
+            {
+              name: "pending_word_len",
+              type: "core::integer::u32",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "contracts::host::Host",
+          members: [
+            {
+              name: "host",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "fullName",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "email",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "phone",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "country",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "birthDate",
+              type: "core::integer::u64",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::host::IHostContract",
+          items: [
+            {
+              type: "function",
+              name: "getHost",
+              inputs: [
+                {
+                  name: "id",
+                  type: "core::integer::u64",
+                },
+              ],
+              outputs: [
+                {
+                  type: "contracts::host::Host",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "getHostId",
+              inputs: [
+                {
+                  name: "contractAddress",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u64",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "insertHost",
+              inputs: [
+                {
+                  name: "host",
+                  type: "contracts::host::Host",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u64",
+                },
+              ],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "impl",
+          name: "OwnableImpl",
+          interface_name: "openzeppelin_access::ownable::interface::IOwnable",
+        },
+        {
+          type: "interface",
+          name: "openzeppelin_access::ownable::interface::IOwnable",
+          items: [
+            {
+              type: "function",
+              name: "owner",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "transfer_ownership",
+              inputs: [
+                {
+                  name: "new_owner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "renounce_ownership",
+              inputs: [],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "constructor",
+          name: "constructor",
+          inputs: [
+            {
+              name: "owner",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnershipTransferred",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+              kind: "nested",
+            },
+            {
+              name: "OwnershipTransferStarted",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+              kind: "nested",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::host::host::HostRegistered",
+          kind: "struct",
+          members: [
+            {
+              name: "hostId",
+              type: "core::integer::u64",
+              kind: "data",
+            },
+            {
+              name: "ownerAddress",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "metadataHash",
+              type: "core::byte_array::ByteArray",
+              kind: "data",
+            },
+            {
+              name: "timestamp",
+              type: "core::integer::u64",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::host::host::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnableEvent",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+              kind: "flat",
+            },
+            {
+              name: "HostRegistered",
+              type: "contracts::host::host::HostRegistered",
+              kind: "nested",
+            },
+          ],
+        },
+      ],
+      classHash:
+        "0x5be3f7018a8c8405cf40e87a35887b8f0665e8c76bd8b62657377a8fdd3e097",
+    },
+    property: {
+      address:
+        "0x48d0a5a25a73b3f2c20c898f0c3c83fe3e9412dee561d6bc0a16f7753dbe57",
+      abi: [
+        {
+          type: "impl",
+          name: "PropertyImpl",
+          interface_name: "contracts::property::IPropertyContract",
+        },
+        {
+          type: "struct",
+          name: "core::byte_array::ByteArray",
+          members: [
+            {
+              name: "data",
+              type: "core::array::Array::<core::bytes_31::bytes31>",
+            },
+            {
+              name: "pending_word",
+              type: "core::felt252",
+            },
+            {
+              name: "pending_word_len",
+              type: "core::integer::u32",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "contracts::property::Property",
+          members: [
+            {
+              name: "hostId",
+              type: "core::integer::u64",
+            },
+            {
+              name: "verificationStatus",
+              type: "core::integer::u8",
+            },
+            {
+              name: "title",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "description",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "address",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "latitude",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "longitude",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "amenities",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "annualYield",
+              type: "core::integer::u64",
+            },
+            {
+              name: "url",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "metadata_ipfs_hash",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "image_ipfs_hash",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "contract_ipfs_hash_token",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "legal_contract_signature",
+              type: "core::byte_array::ByteArray",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::property::IPropertyContract",
+          items: [
+            {
+              type: "function",
+              name: "getProperty",
+              inputs: [
+                {
+                  name: "id",
+                  type: "core::integer::u64",
+                },
+              ],
+              outputs: [
+                {
+                  type: "contracts::property::Property",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "getPropertiesIdByHostId",
+              inputs: [
+                {
+                  name: "hostId",
+                  type: "core::integer::u64",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::array::Array::<core::integer::u64>",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "insertProperty",
+              inputs: [
+                {
+                  name: "property",
+                  type: "contracts::property::Property",
+                },
+                {
+                  name: "hostId",
+                  type: "core::integer::u64",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u64",
+                },
+              ],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "impl",
+          name: "OwnableImpl",
+          interface_name: "openzeppelin_access::ownable::interface::IOwnable",
+        },
+        {
+          type: "interface",
+          name: "openzeppelin_access::ownable::interface::IOwnable",
+          items: [
+            {
+              type: "function",
+              name: "owner",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "transfer_ownership",
+              inputs: [
+                {
+                  name: "new_owner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "renounce_ownership",
+              inputs: [],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "constructor",
+          name: "constructor",
+          inputs: [
+            {
+              name: "owner",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnershipTransferred",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+              kind: "nested",
+            },
+            {
+              name: "OwnershipTransferStarted",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+              kind: "nested",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::property::property::PropertyRegistered",
+          kind: "struct",
+          members: [
+            {
+              name: "propertyId",
+              type: "core::integer::u64",
+              kind: "data",
+            },
+            {
+              name: "ownerAddress",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "metadataHash",
+              type: "core::byte_array::ByteArray",
+              kind: "data",
+            },
+            {
+              name: "timestamp",
+              type: "core::integer::u64",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::property::property::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnableEvent",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+              kind: "flat",
+            },
+            {
+              name: "PropertyRegistered",
+              type: "contracts::property::property::PropertyRegistered",
+              kind: "nested",
+            },
+          ],
+        },
+      ],
+      classHash:
+        "0x72521974a5432837ffd1ccd8c40d7815744efa2a038b4a9a59c5987e9b3954d",
     },
   },
 } as const;

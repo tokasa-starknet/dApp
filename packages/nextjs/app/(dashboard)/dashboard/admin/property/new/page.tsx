@@ -25,9 +25,15 @@ import { Input } from "~~/components/tokasa/ui/input"
 import { Textarea } from "~~/components/tokasa/ui/textarea"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~~/components/tokasa/ui/form"
 import { Badge } from "~~/components/tokasa/ui/badge"
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWriteContract"
+//--------------------------------------------
+import { cn } from "~~/lib/utils"
+import { useAccount } from "@starknet-react/core"
 
+//--------------------------------------------
 // Esquema de validación con Zod
 const propertyFormSchema = z.object({
+  hostId: z.number().optional(),
   title: z.string().min(3, { message: "El título debe tener al menos 3 caracteres" }),
   description: z.string().min(20, { message: "La descripción debe tener al menos 20 caracteres" }),
   address: z.string().min(5, { message: "La dirección es obligatoria" }),
@@ -59,6 +65,7 @@ export default function NewPropertyPage() {
 
   // Valores por defecto
   const defaultValues: Partial<PropertyFormValues> = {
+    hostId: 0,
     title: "",
     description: "",
     address: "",
@@ -77,6 +84,37 @@ export default function NewPropertyPage() {
     resolver: zodResolver(propertyFormSchema) as any,
     defaultValues,
   })
+
+  //--------------------------------------------
+  const {sendAsync} = useScaffoldWriteContract({
+    contractName: "property",
+    functionName: "insertProperty",
+    args: [
+      {
+        hostId: [],
+        verificationStatus: [],
+        title: [],
+        description: [],
+        address: [],
+        latitude: [],
+        longitude: [],
+        amenities: [],
+        annualYield: [],
+        url: [],
+        metadata_ipfs_hash: [],
+        image_ipfs_hash: [],
+        contract_ipfs_hash_token: [],
+        legal_contract_signature: []
+      },
+      0 // hostId como segundo argumento
+    ],
+  })
+
+const {address, isConnected} = useAccount();
+
+  //--------------------------------------------
+
+
 
   const { watch, setValue } = form
   const amenities = watch("amenities")
@@ -98,43 +136,58 @@ export default function NewPropertyPage() {
   async function onSubmit(data: PropertyFormValues) {
     setIsSubmitting(true)
 
-    try {
+  
       // Aquí iría la lógica para enviar los datos a la API
       console.log("Datos del formulario:", data)
 
-      // Simulamos una petición a la API
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+     //--------------------------------------------
+      try {
+        const propertyStruct = {
+          hostId: 0,
+          verificationStatus: 0,
+          title: data.title,
+          description: data.description,
+          address: data.address,
+          latitude: data.latitude,
+          longitude: data.longitude,
+          amenities: data.amenities.join(","),
+          annualYield: data.expectedReturn,
+          url: "x",
+          metadata_ipfs_hash: "x",
+          image_ipfs_hash: "x",
+          contract_ipfs_hash_token: "x",
+          legal_contract_signature: "x",
+        }
+        
+        const result = await sendAsync({ args: [propertyStruct, data.hostId]  })
+     
+        // Para ver el resultado
+        console.log("Resultado de la transacción:", result);
 
-      // Mostrar notificación de éxito
-      setNotification({
-        show: true,
-        type: "success",
-        message: "La propiedad ha sido registrada correctamente.",
-      })
+        setNotification({
+          show: true,
+          type: "success",
+          message: "Tu información ha sido guardada en la blockchain.",
+        })
+        setTimeout(() => {
+          setNotification(null)
+          router.push("/dashboard/admin")
+        }, 3000)
 
-      // Ocultar la notificación después de 3 segundos
-      setTimeout(() => {
-        setNotification(null)
-        // Redirigir al usuario después de guardar
-        router.push("/dashboard/admin")
-      }, 3000)
-    } catch (error) {
-      console.error("Error al registrar la propiedad:", error)
+      }catch(error){
+              console.error("Error al guardar la información en la blockchain:", error)
+            setNotification({
+              show: true,
+              type: "error",
+              message: "No se pudo guardar la información en la blockchain.",
+            })
+            setTimeout(() => setNotification(null), 3000)
+      }finally{
+        setIsSubmitting(false)
+      }
 
-      // Mostrar notificación de error
-      setNotification({
-        show: true,
-        type: "error",
-        message: "No se pudo registrar la propiedad. Inténtalo de nuevo.",
-      })
+     //--------------------------------------------
 
-      // Ocultar la notificación después de 3 segundos
-      setTimeout(() => {
-        setNotification(null)
-      }, 3000)
-    } finally {
-      setIsSubmitting(false)
-    }
   }
 
   // Calcular automáticamente el precio por token cuando cambia el valor estimado o el porcentaje tokenizable

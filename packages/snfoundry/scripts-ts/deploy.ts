@@ -47,8 +47,23 @@ const deployScript = async (): Promise<void> => {
     constructorArgs: {
       owner: deployer.address,
     },
+    
+  });
+  await deployContract({
+    contract: "host",
+    constructorArgs: {
+      owner: deployer.address,
+    },
+  });
+
+  await deployContract({
+    contract: "property",
+    constructorArgs: {
+      owner: deployer.address,
+    },
   });
 };
+
 
 const main = async (): Promise<void> => {
   try {
