@@ -16,6 +16,9 @@ import { Calendar } from "~~/components/tokasa/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "~~/components/tokasa/ui/popover"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~~/components/tokasa/ui/form"
 import { cn } from "~~/lib/utils"
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWriteContract"
+import { stringToByteArrayFelt } from "~~/utils/scaffold-stark/eventKeyFilter"
+import { useAccount } from "@starknet-react/core"
 
 // Esquema de validación con Zod
 const profileFormSchema = z.object({
@@ -77,43 +80,76 @@ export default function ProfilePage() {
     defaultValues,
   })
 
+  const { sendAsync } = useScaffoldWriteContract({
+    contractName: "host",
+    functionName: "insertHost",
+    args: [{
+      host: "0x0",
+      //metadata: [],
+      //date: 0,
+      //kycDocHash: [],
+      fullName: [],
+      email: [],
+      phone: [],
+      country: [],
+      //state: [],
+      //city: [],
+      //address: [],
+      //postalCode: [],
+      //passportNumber: [],
+      //passportExpiry: 0,
+      birthDate: 0,
+    }],
+  })
+
+  const { address, isConnected } = useAccount();
+
   async function onSubmit(data: ProfileFormValues) {
     setIsSubmitting(true)
 
-    try {
-      // Aquí iría la lógica para enviar los datos a la API
-      console.log("Datos del formulario:", data)
+    try { 
+      console.log(data);
+      console.log(Math.floor(data.date_of_birth.getTime() / 1000));
+      // Construir el struct Host según el ABI
+      const hostStruct = {
+        host: "0x0", // Puedes poner la address del usuario si la tienes, si no, 0x0
+        //metadata: stringToByteArrayFelt(""), // Si tienes metadata adicional
+        //date: Math.floor(Date.now() / 1000), // Timestamp actual
+        //kycDocHash: stringToByteArrayFelt(""), // Si tienes KYC, si no, vacío
+        fullName: data.full_name,
+        email: data.email,
+        phone: data.phone_number,
+        country: data.nationality,
+        //state: stringToByteArrayFelt(""), // Si tienes estado/provincia
+        //city: stringToByteArrayFelt(""), // Si tienes ciudad
+        //address: stringToByteArrayFelt(""), // Si tienes dirección
+        //postalCode: stringToByteArrayFelt(""), // Si tienes código postal
+        //passportNumber: stringToByteArrayFelt(""), // Si tienes pasaporte
+        //passportExpiry: 0, // Si tienes fecha de expiración de pasaporte
+        birthDate:  Math.floor(data.date_of_birth.getTime() / 1000), // Fecha de nacimiento en timestamp
+      }
 
-      // Simulamos una petición a la API
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      console.log(hostStruct);
 
-      // Mostrar notificación de éxito
+      // Llamar al contrato
+      const result = await sendAsync({ args: [hostStruct] })
       setNotification({
         show: true,
         type: "success",
-        message: "Tu información ha sido actualizada correctamente.",
+        message: "Tu información ha sido guardada en la blockchain.",
       })
-
-      // Ocultar la notificación después de 3 segundos
       setTimeout(() => {
         setNotification(null)
-        // Redirigir al usuario después de guardar
         router.push("/dashboard/admin")
       }, 3000)
     } catch (error) {
-      console.error("Error al guardar el perfil:", error)
-
-      // Mostrar notificación de error
+      console.error("Error al guardar la información en la blockchain:", error)
       setNotification({
         show: true,
         type: "error",
-        message: "No se pudo guardar la información. Inténtalo de nuevo.",
+        message: "No se pudo guardar la información en la blockchain.",
       })
-
-      // Ocultar la notificación después de 3 segundos
-      setTimeout(() => {
-        setNotification(null)
-      }, 3000)
+      setTimeout(() => setNotification(null), 3000)
     } finally {
       setIsSubmitting(false)
     }
@@ -292,7 +328,7 @@ export default function ProfilePage() {
               </Button>
               <Button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isConnected}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
               >
                 {isSubmitting ? (
