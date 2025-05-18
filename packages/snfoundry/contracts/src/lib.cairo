@@ -1,6 +1,5 @@
-    pub mod YourContract;
-    pub mod host;
-    pub mod property;
-    pub mod ToKasaFractionalAssets;
-
+pub mod ToKasaFractionalAssets;
+pub mod YourContract;
+pub mod host;
+pub mod property;
 

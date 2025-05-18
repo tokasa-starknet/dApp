@@ -23,4 +23,4 @@ const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default ScaffoldStarkApp; 
+export default ScaffoldStarkApp;

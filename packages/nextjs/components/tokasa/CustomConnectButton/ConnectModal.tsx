@@ -7,7 +7,10 @@ import { useTheme } from "next-themes";
 import { BlockieAvatar } from "~~/components/tokasa/BlockieAvatar";
 import GenericModal from "./GenericModal";
 import { LAST_CONNECTED_TIME_LOCALSTORAGE_KEY } from "~~/utils/Constants";
-import { tokasaButton, tokasaButtonOutline } from "~~/components/tokasa/tailwind-tokasa";
+import {
+  tokasaButton,
+  tokasaButtonOutline,
+} from "~~/components/tokasa/tailwind-tokasa";
 
 const loader = ({ src }: { src: string }) => {
   return src;
@@ -67,7 +70,10 @@ const ConnectModal = () => {
 
   return (
     <div>
-      <label htmlFor="connect-modal" className={`${tokasaButton} cursor-pointer`}>
+      <label
+        htmlFor="connect-modal"
+        className={`${tokasaButton} cursor-pointer`}
+      >
         <span>Connect</span>
       </label>
 

@@ -13,8 +13,8 @@ mod ToKasaFractionalAssets {
     use openzeppelin_security::pausable::PausableComponent;
     use openzeppelin_token::common::erc2981::{DefaultConfig, ERC2981Component};
     use openzeppelin_token::erc1155::ERC1155Component;
-    use openzeppelin_upgrades::interface::IUpgradeable;
     use openzeppelin_upgrades::UpgradeableComponent;
+    use openzeppelin_upgrades::interface::IUpgradeable;
     use starknet::{ClassHash, ContractAddress, get_caller_address};
     use super::{MINTER_ROLE, PAUSER_ROLE, UPGRADER_ROLE, URI_SETTER_ROLE};
 
@@ -31,15 +31,18 @@ mod ToKasaFractionalAssets {
     #[abi(embed_v0)]
     impl PausableImpl = PausableComponent::PausableImpl<ContractState>;
     #[abi(embed_v0)]
-    impl AccessControlImpl = AccessControlComponent::AccessControlImpl<ContractState>;
+    impl AccessControlImpl =
+        AccessControlComponent::AccessControlImpl<ContractState>;
     #[abi(embed_v0)]
-    impl AccessControlCamelImpl = AccessControlComponent::AccessControlCamelImpl<ContractState>;
+    impl AccessControlCamelImpl =
+        AccessControlComponent::AccessControlCamelImpl<ContractState>;
     #[abi(embed_v0)]
     impl ERC2981Impl = ERC2981Component::ERC2981Impl<ContractState>;
     #[abi(embed_v0)]
     impl ERC2981InfoImpl = ERC2981Component::ERC2981InfoImpl<ContractState>;
     #[abi(embed_v0)]
-    impl ERC2981AdminAccessControlImpl = ERC2981Component::ERC2981AdminAccessControlImpl<ContractState>;
+    impl ERC2981AdminAccessControlImpl =
+        ERC2981Component::ERC2981AdminAccessControlImpl<ContractState>;
 
     // Internal
     impl ERC1155InternalImpl = ERC1155Component::InternalImpl<ContractState>;
@@ -116,7 +119,7 @@ mod ToKasaFractionalAssets {
             contract_state.pausable.assert_not_paused();
         }
     }
-    
+
     #[generate_trait]
     #[abi(per_item)]
     impl ExternalImpl of ExternalTrait {
@@ -136,7 +139,10 @@ mod ToKasaFractionalAssets {
         fn burn(ref self: ContractState, account: ContractAddress, token_id: u256, value: u256) {
             let caller = get_caller_address();
             if account != caller {
-                assert(self.erc1155.is_approved_for_all(account, caller), ERC1155Component::Errors::UNAUTHORIZED);
+                assert(
+                    self.erc1155.is_approved_for_all(account, caller),
+                    ERC1155Component::Errors::UNAUTHORIZED,
+                );
             }
             self.erc1155.burn(account, token_id, value);
         }
@@ -150,7 +156,10 @@ mod ToKasaFractionalAssets {
         ) {
             let caller = get_caller_address();
             if account != caller {
-                assert(self.erc1155.is_approved_for_all(account, caller), ERC1155Component::Errors::UNAUTHORIZED);
+                assert(
+                    self.erc1155.is_approved_for_all(account, caller),
+                    ERC1155Component::Errors::UNAUTHORIZED,
+                );
             }
             self.erc1155.batch_burn(account, token_ids, values);
         }
@@ -215,7 +224,7 @@ mod ToKasaFractionalAssets {
     //
     // Upgradeable
     //
-    
+
     #[abi(embed_v0)]
     impl UpgradeableImpl of IUpgradeable<ContractState> {
         fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {

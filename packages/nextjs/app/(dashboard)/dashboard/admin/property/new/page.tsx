@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
   ArrowLeft,
   Building,
@@ -18,50 +18,72 @@ import {
   Percent,
   Coins,
   BarChart3,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Button } from "~~/components/tokasa/ui/button"
-import { Input } from "~~/components/tokasa/ui/input"
-import { Textarea } from "~~/components/tokasa/ui/textarea"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~~/components/tokasa/ui/form"
-import { Badge } from "~~/components/tokasa/ui/badge"
-import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWriteContract"
+import { Button } from "~~/components/tokasa/ui/button";
+import { Input } from "~~/components/tokasa/ui/input";
+import { Textarea } from "~~/components/tokasa/ui/textarea";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~~/components/tokasa/ui/form";
+import { Badge } from "~~/components/tokasa/ui/badge";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWriteContract";
 //--------------------------------------------
-import { cn } from "~~/lib/utils"
-import { useAccount } from "@starknet-react/core"
+import { cn } from "~~/lib/utils";
+import { useAccount } from "@starknet-react/core";
 
 //--------------------------------------------
 // Esquema de validación con Zod
-const propertyFormSchema = z.object({
-  hostId: z.number().optional(),
-  title: z.string().min(3, { message: "El título debe tener al menos 3 caracteres" }),
-  description: z.string().min(20, { message: "La descripción debe tener al menos 20 caracteres" }),
-  address: z.string().min(5, { message: "La dirección es obligatoria" }),
-  latitude: z.string().optional(),
-  longitude: z.string().optional(),
-  area: z.string().optional(),
-  amenities: z.array(z.string()).default([]),
-  estimatedValue: z.string().min(1, { message: "El valor estimado es obligatorio" }),
-  tokenizablePercentage: z.string().min(1, { message: "El porcentaje tokenizable es obligatorio" }),
-  totalTokens: z.string().min(1, { message: "El total de tokens es obligatorio" }),
-  tokenPrice: z.string().min(1, { message: "El precio por token es obligatorio" }),
-  expectedReturn: z.string().optional(),
-}).transform((data) => ({
-  ...data,
-  amenities: data.amenities || [],
-}))
+const propertyFormSchema = z
+  .object({
+    hostId: z.number().optional(),
+    title: z
+      .string()
+      .min(3, { message: "El título debe tener al menos 3 caracteres" }),
+    description: z
+      .string()
+      .min(20, { message: "La descripción debe tener al menos 20 caracteres" }),
+    address: z.string().min(5, { message: "La dirección es obligatoria" }),
+    latitude: z.string().optional(),
+    longitude: z.string().optional(),
+    area: z.string().optional(),
+    amenities: z.array(z.string()).default([]),
+    estimatedValue: z
+      .string()
+      .min(1, { message: "El valor estimado es obligatorio" }),
+    tokenizablePercentage: z
+      .string()
+      .min(1, { message: "El porcentaje tokenizable es obligatorio" }),
+    totalTokens: z
+      .string()
+      .min(1, { message: "El total de tokens es obligatorio" }),
+    tokenPrice: z
+      .string()
+      .min(1, { message: "El precio por token es obligatorio" }),
+    expectedReturn: z.string().optional(),
+  })
+  .transform((data) => ({
+    ...data,
+    amenities: data.amenities || [],
+  }));
 
-type PropertyFormValues = z.infer<typeof propertyFormSchema>
+type PropertyFormValues = z.infer<typeof propertyFormSchema>;
 
 export default function NewPropertyPage() {
-  const router = useRouter()
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [newAmenity, setNewAmenity] = useState("")
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [newAmenity, setNewAmenity] = useState("");
   const [notification, setNotification] = useState<{
-    show: boolean
-    type: "success" | "error"
-    message: string
-  } | null>(null)
+    show: boolean;
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   // Valores por defecto
   const defaultValues: Partial<PropertyFormValues> = {
@@ -78,15 +100,15 @@ export default function NewPropertyPage() {
     totalTokens: "1000",
     tokenPrice: "",
     expectedReturn: "",
-  }
+  };
 
   const form = useForm<PropertyFormValues>({
     resolver: zodResolver(propertyFormSchema) as any,
     defaultValues,
-  })
+  });
 
   //--------------------------------------------
-  const {sendAsync} = useScaffoldWriteContract({
+  const { sendAsync } = useScaffoldWriteContract({
     contractName: "property",
     functionName: "insertProperty",
     args: [
@@ -104,104 +126,103 @@ export default function NewPropertyPage() {
         metadata_ipfs_hash: [],
         image_ipfs_hash: [],
         contract_ipfs_hash_token: [],
-        legal_contract_signature: []
+        legal_contract_signature: [],
       },
-      0 // hostId como segundo argumento
+      0, // hostId como segundo argumento
     ],
-  })
+  });
 
-const {address, isConnected} = useAccount();
+  const { address, isConnected } = useAccount();
 
   //--------------------------------------------
 
-
-
-  const { watch, setValue } = form
-  const amenities = watch("amenities")
+  const { watch, setValue } = form;
+  const amenities = watch("amenities");
 
   const addAmenity = () => {
     if (newAmenity.trim() !== "" && !amenities.includes(newAmenity.trim())) {
-      setValue("amenities", [...amenities, newAmenity.trim()])
-      setNewAmenity("")
+      setValue("amenities", [...amenities, newAmenity.trim()]);
+      setNewAmenity("");
     }
-  }
+  };
 
   const removeAmenity = (amenity: string) => {
     setValue(
       "amenities",
       amenities.filter((a) => a !== amenity),
-    )
-  }
+    );
+  };
 
   async function onSubmit(data: PropertyFormValues) {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
-  
-      // Aquí iría la lógica para enviar los datos a la API
-      console.log("Datos del formulario:", data)
+    // Aquí iría la lógica para enviar los datos a la API
+    console.log("Datos del formulario:", data);
 
-     //--------------------------------------------
-      try {
-        const propertyStruct = {
-          hostId: 0,
-          verificationStatus: 0,
-          title: data.title,
-          description: data.description,
-          address: data.address,
-          latitude: data.latitude,
-          longitude: data.longitude,
-          amenities: data.amenities.join(","),
-          annualYield: data.expectedReturn,
-          url: "x",
-          metadata_ipfs_hash: "x",
-          image_ipfs_hash: "x",
-          contract_ipfs_hash_token: "x",
-          legal_contract_signature: "x",
-        }
-        
-        const result = await sendAsync({ args: [propertyStruct, data.hostId]  })
-     
-        // Para ver el resultado
-        console.log("Resultado de la transacción:", result);
+    //--------------------------------------------
+    try {
+      const propertyStruct = {
+        hostId: 0,
+        verificationStatus: 0,
+        title: data.title,
+        description: data.description,
+        address: data.address,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        amenities: data.amenities.join(","),
+        annualYield: data.expectedReturn,
+        url: "x",
+        metadata_ipfs_hash: "x",
+        image_ipfs_hash: "x",
+        contract_ipfs_hash_token: "x",
+        legal_contract_signature: "x",
+      };
 
-        setNotification({
-          show: true,
-          type: "success",
-          message: "Tu información ha sido guardada en la blockchain.",
-        })
-        setTimeout(() => {
-          setNotification(null)
-          router.push("/dashboard/admin")
-        }, 3000)
+      const result = await sendAsync({ args: [propertyStruct, data.hostId] });
 
-      }catch(error){
-              console.error("Error al guardar la información en la blockchain:", error)
-            setNotification({
-              show: true,
-              type: "error",
-              message: "No se pudo guardar la información en la blockchain.",
-            })
-            setTimeout(() => setNotification(null), 3000)
-      }finally{
-        setIsSubmitting(false)
-      }
+      // Para ver el resultado
+      console.log("Resultado de la transacción:", result);
 
-     //--------------------------------------------
+      setNotification({
+        show: true,
+        type: "success",
+        message: "Tu información ha sido guardada en la blockchain.",
+      });
+      setTimeout(() => {
+        setNotification(null);
+        router.push("/dashboard/admin");
+      }, 3000);
+    } catch (error) {
+      console.error("Error al guardar la información en la blockchain:", error);
+      setNotification({
+        show: true,
+        type: "error",
+        message: "No se pudo guardar la información en la blockchain.",
+      });
+      setTimeout(() => setNotification(null), 3000);
+    } finally {
+      setIsSubmitting(false);
+    }
 
+    //--------------------------------------------
   }
 
   // Calcular automáticamente el precio por token cuando cambia el valor estimado o el porcentaje tokenizable
   const calculateTokenPrice = () => {
-    const estimatedValue = Number.parseFloat(form.watch("estimatedValue") || "0")
-    const tokenizablePercentage = Number.parseFloat(form.watch("tokenizablePercentage") || "0")
-    const totalTokens = Number.parseInt(form.watch("totalTokens") || "0")
+    const estimatedValue = Number.parseFloat(
+      form.watch("estimatedValue") || "0",
+    );
+    const tokenizablePercentage = Number.parseFloat(
+      form.watch("tokenizablePercentage") || "0",
+    );
+    const totalTokens = Number.parseInt(form.watch("totalTokens") || "0");
 
     if (estimatedValue > 0 && tokenizablePercentage > 0 && totalTokens > 0) {
-      const tokenizableValue = (estimatedValue * tokenizablePercentage) / 100
-      const tokenPrice = tokenizableValue / totalTokens
-      form.setValue("tokenPrice", tokenPrice.toFixed(2))
+      const tokenizableValue = (estimatedValue * tokenizablePercentage) / 100;
+      const tokenPrice = tokenizableValue / totalTokens;
+      form.setValue("tokenPrice", tokenPrice.toFixed(2));
     }
-  }
+  };
 
   return (
     <div className="container mx-auto p-6 max-w-4xl">
@@ -218,7 +239,9 @@ const {address, isConnected} = useAccount();
             <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
               Registrar Nueva Propiedad
             </h1>
-            <p className="text-white/70">Completa la información para tokenizar una nueva propiedad</p>
+            <p className="text-white/70">
+              Completa la información para tokenizar una nueva propiedad
+            </p>
           </div>
         </div>
       </div>
@@ -237,7 +260,15 @@ const {address, isConnected} = useAccount();
           ) : (
             <XCircle className="h-5 w-5 text-red-500 mr-2" />
           )}
-          <p className={notification.type === "success" ? "text-green-100" : "text-red-100"}>{notification.message}</p>
+          <p
+            className={
+              notification.type === "success"
+                ? "text-green-100"
+                : "text-red-100"
+            }
+          >
+            {notification.message}
+          </p>
         </div>
       )}
 
@@ -264,7 +295,9 @@ const {address, isConnected} = useAccount();
                           className="bg-zinc-800 border-zinc-700 focus:border-purple-500"
                         />
                       </FormControl>
-                      <FormDescription>Nombre comercial o título de la propiedad</FormDescription>
+                      <FormDescription>
+                        Nombre comercial o título de la propiedad
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -283,7 +316,9 @@ const {address, isConnected} = useAccount();
                           className="bg-zinc-800 border-zinc-700 focus:border-purple-500 min-h-32 resize-y"
                         />
                       </FormControl>
-                      <FormDescription>Incluye características, ubicación y atractivos</FormDescription>
+                      <FormDescription>
+                        Incluye características, ubicación y atractivos
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -309,7 +344,9 @@ const {address, isConnected} = useAccount();
                           className="bg-zinc-800 border-zinc-700 focus:border-purple-500"
                         />
                       </FormControl>
-                      <FormDescription>Dirección completa de la propiedad</FormDescription>
+                      <FormDescription>
+                        Dirección completa de la propiedad
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -367,7 +404,9 @@ const {address, isConnected} = useAccount();
                           className="bg-zinc-800 border-zinc-700 focus:border-purple-500"
                         />
                       </FormControl>
-                      <FormDescription>Superficie total de la propiedad</FormDescription>
+                      <FormDescription>
+                        Superficie total de la propiedad
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -383,8 +422,8 @@ const {address, isConnected} = useAccount();
                       className="bg-zinc-800 border-zinc-700 focus:border-purple-500"
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                          e.preventDefault()
-                          addAmenity()
+                          e.preventDefault();
+                          addAmenity();
                         }
                       }}
                     />
@@ -413,7 +452,9 @@ const {address, isConnected} = useAccount();
                       </Badge>
                     ))}
                   </div>
-                  <FormDescription>Características y servicios de la propiedad</FormDescription>
+                  <FormDescription>
+                    Características y servicios de la propiedad
+                  </FormDescription>
                 </div>
               </div>
 
@@ -436,13 +477,15 @@ const {address, isConnected} = useAccount();
                             placeholder="Ej: 500000"
                             {...field}
                             onChange={(e) => {
-                              field.onChange(e)
-                              calculateTokenPrice()
+                              field.onChange(e);
+                              calculateTokenPrice();
                             }}
                             className="bg-zinc-800 border-zinc-700 focus:border-purple-500"
                           />
                         </FormControl>
-                        <FormDescription>Valor de mercado de la propiedad</FormDescription>
+                        <FormDescription>
+                          Valor de mercado de la propiedad
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -463,15 +506,17 @@ const {address, isConnected} = useAccount();
                               placeholder="Ej: 100"
                               {...field}
                               onChange={(e) => {
-                                field.onChange(e)
-                                calculateTokenPrice()
+                                field.onChange(e);
+                                calculateTokenPrice();
                               }}
                               className="bg-zinc-800 border-zinc-700 focus:border-purple-500 pr-8"
                             />
                             <Percent className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
                           </div>
                         </FormControl>
-                        <FormDescription>Porcentaje de la propiedad a tokenizar</FormDescription>
+                        <FormDescription>
+                          Porcentaje de la propiedad a tokenizar
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -493,15 +538,17 @@ const {address, isConnected} = useAccount();
                               placeholder="Ej: 1000"
                               {...field}
                               onChange={(e) => {
-                                field.onChange(e)
-                                calculateTokenPrice()
+                                field.onChange(e);
+                                calculateTokenPrice();
                               }}
                               className="bg-zinc-800 border-zinc-700 focus:border-purple-500 pr-8"
                             />
                             <Coins className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
                           </div>
                         </FormControl>
-                        <FormDescription>Cantidad total de tokens a emitir</FormDescription>
+                        <FormDescription>
+                          Cantidad total de tokens a emitir
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -525,7 +572,9 @@ const {address, isConnected} = useAccount();
                             <DollarSign className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
                           </div>
                         </FormControl>
-                        <FormDescription>Precio inicial por token</FormDescription>
+                        <FormDescription>
+                          Precio inicial por token
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -537,7 +586,9 @@ const {address, isConnected} = useAccount();
                   name="expectedReturn"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Rendimiento anual esperado (%) (opcional)</FormLabel>
+                      <FormLabel>
+                        Rendimiento anual esperado (%) (opcional)
+                      </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Input
@@ -550,7 +601,9 @@ const {address, isConnected} = useAccount();
                           <BarChart3 className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
                         </div>
                       </FormControl>
-                      <FormDescription>Proyección de rentabilidad anual</FormDescription>
+                      <FormDescription>
+                        Proyección de rentabilidad anual
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -559,7 +612,12 @@ const {address, isConnected} = useAccount();
             </div>
 
             <div className="flex justify-end gap-4 pt-4 border-t border-zinc-800">
-              <Button type="button" variant="outline" onClick={() => router.back()} className="border-zinc-700">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.back()}
+                className="border-zinc-700"
+              >
                 Cancelar
               </Button>
               <Button
@@ -583,5 +641,5 @@ const {address, isConnected} = useAccount();
         </Form>
       </div>
     </div>
-  )
+  );
 }
