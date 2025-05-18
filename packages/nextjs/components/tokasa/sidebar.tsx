@@ -1,13 +1,21 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Home, BarChart3, Wallet, History, Settings } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { Home, BarChart3, Wallet, History, Settings } from "lucide-react";
 //scaffold-stark
 import { CustomConnectButton } from "~~/components/tokasa/CustomConnectButton";
 import { useAccount, useNetwork, useProvider } from "@starknet-react/core";
 import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
 import { useEffect, useState } from "react";
-import { tokasaSidebar, tokasaNavItem, tokasaNavSection, tokasaFooterSection, tokasaGradient, tokasaHeading, tokasaLabel, tokasaStatusIndicator } from "./tailwind-tokasa";
-
+import {
+  tokasaSidebar,
+  tokasaNavItem,
+  tokasaNavSection,
+  tokasaFooterSection,
+  tokasaGradient,
+  tokasaHeading,
+  tokasaLabel,
+  tokasaStatusIndicator,
+} from "./tailwind-tokasa";
 
 export function Sidebar() {
   const { provider } = useProvider();
@@ -35,8 +43,16 @@ export function Sidebar() {
           }
         });
     }
-  }, [status, address, provider, chainId, targetNetwork.id, targetNetwork.network, chain.network]);
-  
+  }, [
+    status,
+    address,
+    provider,
+    chainId,
+    targetNetwork.id,
+    targetNetwork.network,
+    chain.network,
+  ]);
+
   return (
     <aside className={tokasaSidebar}>
       <div className="mb-8">
@@ -50,14 +66,13 @@ export function Sidebar() {
           />
         </div>
         <h2 className={tokasaHeading + " text-center"}>ToKasa</h2>
-        <p className={tokasaLabel + " text-center"}>Real Estate Tokenization Platform</p>
+        <p className={tokasaLabel + " text-center"}>
+          Real Estate Tokenization Platform
+        </p>
       </div>
 
       <nav className={tokasaNavSection}>
-        <Link
-          href="/dashboard"
-          className={tokasaNavItem.active}
-        >
+        <Link href="/dashboard" className={tokasaNavItem.active}>
           <Home className="h-5 w-5" />
           <span>Properties</span>
         </Link>
@@ -67,7 +82,7 @@ export function Sidebar() {
         >
           <Settings className="h-5 w-5" />
           <span>Administración</span>
-        </Link> 
+        </Link>
         <Link
           href="/dashboard?tab=portfolio"
           className={tokasaNavItem.inactive}
@@ -75,10 +90,7 @@ export function Sidebar() {
           <BarChart3 className="h-5 w-5" />
           <span>My Portfolio</span>
         </Link>
-        <Link
-          href="/wallet"
-          className={tokasaNavItem.inactive}
-        >
+        <Link href="/wallet" className={tokasaNavItem.inactive}>
           <Wallet className="h-5 w-5" />
           <span>Wallet</span>
         </Link>
@@ -99,13 +111,15 @@ export function Sidebar() {
           <div className="flex items-center">
             <div className={tokasaStatusIndicator.active + " mr-2"}></div>
             <p className={tokasaLabel + " truncate"}>
-              {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "0x...0"}
+              {address
+                ? `${address.slice(0, 6)}...${address.slice(-4)}`
+                : "0x...0"}
             </p>
           </div>
         </div>
       </div>
     </aside>
-  )
+  );
 }
 
 export default Sidebar;

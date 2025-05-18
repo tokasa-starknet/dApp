@@ -62,6 +62,20 @@ const deployScript = async (): Promise<void> => {
       owner: deployer.address,
     },
   });
+
+  await deployContract({
+    contract: "ToKasaFractionalAssets",
+    constructorArgs: {
+      default_admin: deployer.address,
+      pauser: deployer.address,
+      minter: deployer.address,
+      uri_setter: deployer.address,
+      upgrader: deployer.address,
+      default_royalty_receiver: deployer.address,
+      royalty_admin: deployer.address
+    },
+  });
+
 };
 
 

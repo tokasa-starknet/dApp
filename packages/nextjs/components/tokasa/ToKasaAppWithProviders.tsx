@@ -17,7 +17,7 @@ export const ToKasaApp = ({ children }: { children: React.ReactNode }) => {
   const isDarkMode = resolvedTheme === "dark";
   return (
     <div className="flex h-screen">
-       <div className="fixed left-0 top-0 h-full w-64 bg-zinc-900 border-r border-zinc-800">
+      <div className="fixed left-0 top-0 h-full w-64 bg-zinc-900 border-r border-zinc-800">
         <Sidebar />
       </div>
 

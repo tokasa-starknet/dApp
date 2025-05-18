@@ -1,37 +1,65 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { format } from "date-fns"
-import { es } from "date-fns/locale"
-import { CalendarIcon, Save, ArrowLeft, User, CheckCircle, XCircle } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+import {
+  CalendarIcon,
+  Save,
+  ArrowLeft,
+  User,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
 
-import { Button } from "~~/components/tokasa/ui/button"
-import { Input } from "~~/components/tokasa/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~~/components/tokasa/ui/select"
-import { Calendar } from "~~/components/tokasa/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "~~/components/tokasa/ui/popover"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~~/components/tokasa/ui/form"
-import { cn } from "~~/lib/utils"
-import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWriteContract"
-import { stringToByteArrayFelt } from "~~/utils/scaffold-stark/eventKeyFilter"
-import { useAccount } from "@starknet-react/core"
+import { Button } from "~~/components/tokasa/ui/button";
+import { Input } from "~~/components/tokasa/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~~/components/tokasa/ui/select";
+import { Calendar } from "~~/components/tokasa/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~~/components/tokasa/ui/popover";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~~/components/tokasa/ui/form";
+import { cn } from "~~/lib/utils";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-stark/useScaffoldWriteContract";
+import { stringToByteArrayFelt } from "~~/utils/scaffold-stark/eventKeyFilter";
+import { useAccount } from "@starknet-react/core";
 
 // Esquema de validación con Zod
 const profileFormSchema = z.object({
-  full_name: z.string().min(3, { message: "El nombre debe tener al menos 3 caracteres" }),
+  full_name: z
+    .string()
+    .min(3, { message: "El nombre debe tener al menos 3 caracteres" }),
   email: z.string().email({ message: "Introduce un email válido" }),
-  phone_number: z.string().min(9, { message: "Introduce un número de teléfono válido" }),
+  phone_number: z
+    .string()
+    .min(9, { message: "Introduce un número de teléfono válido" }),
   nationality: z.string().min(1, { message: "Selecciona una nacionalidad" }),
   date_of_birth: z.date({
     required_error: "Selecciona una fecha de nacimiento",
   }),
-})
+});
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // Lista de nacionalidades comunes
 const nationalities = [
@@ -52,19 +80,19 @@ const nationalities = [
   { value: "pt", label: "Portugal" },
   { value: "us", label: "United States" },
   { value: "other", label: "Other" },
-]
+];
 
 export default function ProfilePage() {
-  const router = useRouter()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState<{
-    show: boolean
-    type: "success" | "error"
-    message: string
-  } | null>(null)
+    show: boolean;
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   // Estado para controlar la apertura del calendario
-  const [calendarOpen, setCalendarOpen] = useState(false)
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   // Valores por defecto (podrían venir de una API en un caso real)
   const defaultValues: Partial<ProfileFormValues> = {
@@ -73,41 +101,43 @@ export default function ProfilePage() {
     phone_number: "",
     nationality: "",
     date_of_birth: undefined,
-  }
+  };
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
-  })
+  });
 
   const { sendAsync } = useScaffoldWriteContract({
     contractName: "host",
     functionName: "insertHost",
-    args: [{
-      host: "0x0",
-      //metadata: [],
-      //date: 0,
-      //kycDocHash: [],
-      fullName: [],
-      email: [],
-      phone: [],
-      country: [],
-      //state: [],
-      //city: [],
-      //address: [],
-      //postalCode: [],
-      //passportNumber: [],
-      //passportExpiry: 0,
-      birthDate: 0,
-    }],
-  })
+    args: [
+      {
+        host: "0x0",
+        //metadata: [],
+        //date: 0,
+        //kycDocHash: [],
+        fullName: [],
+        email: [],
+        phone: [],
+        country: [],
+        //state: [],
+        //city: [],
+        //address: [],
+        //postalCode: [],
+        //passportNumber: [],
+        //passportExpiry: 0,
+        birthDate: 0,
+      },
+    ],
+  });
 
   const { address, isConnected } = useAccount();
 
   async function onSubmit(data: ProfileFormValues) {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
-    try { 
+    try {
       console.log(data);
       console.log(Math.floor(data.date_of_birth.getTime() / 1000));
       // Construir el struct Host según el ABI
@@ -126,32 +156,32 @@ export default function ProfilePage() {
         //postalCode: stringToByteArrayFelt(""), // Si tienes código postal
         //passportNumber: stringToByteArrayFelt(""), // Si tienes pasaporte
         //passportExpiry: 0, // Si tienes fecha de expiración de pasaporte
-        birthDate:  Math.floor(data.date_of_birth.getTime() / 1000), // Fecha de nacimiento en timestamp
-      }
+        birthDate: Math.floor(data.date_of_birth.getTime() / 1000), // Fecha de nacimiento en timestamp
+      };
 
       console.log(hostStruct);
 
       // Llamar al contrato
-      const result = await sendAsync({ args: [hostStruct] })
+      const result = await sendAsync({ args: [hostStruct] });
       setNotification({
         show: true,
         type: "success",
         message: "Tu información ha sido guardada en la blockchain.",
-      })
+      });
       setTimeout(() => {
-        setNotification(null)
-        router.push("/dashboard/admin")
-      }, 3000)
+        setNotification(null);
+        router.push("/dashboard/admin");
+      }, 3000);
     } catch (error) {
-      console.error("Error al guardar la información en la blockchain:", error)
+      console.error("Error al guardar la información en la blockchain:", error);
       setNotification({
         show: true,
         type: "error",
         message: "No se pudo guardar la información en la blockchain.",
-      })
-      setTimeout(() => setNotification(null), 3000)
+      });
+      setTimeout(() => setNotification(null), 3000);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   }
 
@@ -170,7 +200,9 @@ export default function ProfilePage() {
             <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
               Información del Propietario
             </h1>
-            <p className="text-white/70">Completa tu información personal para gestionar tus propiedades</p>
+            <p className="text-white/70">
+              Completa tu información personal para gestionar tus propiedades
+            </p>
           </div>
         </div>
       </div>
@@ -189,7 +221,15 @@ export default function ProfilePage() {
           ) : (
             <XCircle className="h-5 w-5 text-red-500 mr-2" />
           )}
-          <p className={notification.type === "success" ? "text-green-100" : "text-red-100"}>{notification.message}</p>
+          <p
+            className={
+              notification.type === "success"
+                ? "text-green-100"
+                : "text-red-100"
+            }
+          >
+            {notification.message}
+          </p>
         </div>
       )}
 
@@ -209,7 +249,7 @@ export default function ProfilePage() {
                       className="bg-zinc-800 border-zinc-700 focus:border-purple-500"
                     />
                   </FormControl>
-                  <FormMessage className="bg-red-900/20 border border-red-600"/>
+                  <FormMessage className="bg-red-900/20 border border-red-600" />
                 </FormItem>
               )}
             />
@@ -228,7 +268,7 @@ export default function ProfilePage() {
                       className="bg-zinc-800 border-zinc-700 focus:border-purple-500"
                     />
                   </FormControl>
-                  <FormMessage className="bg-red-900/20 border border-red-600"/>
+                  <FormMessage className="bg-red-900/20 border border-red-600" />
                 </FormItem>
               )}
             />
@@ -246,7 +286,7 @@ export default function ProfilePage() {
                       className="bg-zinc-800 border-zinc-700 focus:border-purple-500"
                     />
                   </FormControl>
-                  <FormMessage className="bg-red-900/20 border border-red-600"/>
+                  <FormMessage className="bg-red-900/20 border border-red-600" />
                 </FormItem>
               )}
             />
@@ -257,7 +297,10 @@ export default function ProfilePage() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nacionalidad</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="bg-zinc-800 border-zinc-700">
                         <SelectValue placeholder="Selecciona tu nacionalidad" />
@@ -265,13 +308,16 @@ export default function ProfilePage() {
                     </FormControl>
                     <SelectContent className="bg-zinc-800 border-zinc-700">
                       {nationalities.map((nationality) => (
-                        <SelectItem key={nationality.value} value={nationality.value}>
+                        <SelectItem
+                          key={nationality.value}
+                          value={nationality.value}
+                        >
                           {nationality.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormMessage className="bg-red-900/20 border border-red-600"/>
+                  <FormMessage className="bg-red-900/20 border border-red-600" />
                 </FormItem>
               )}
             />
@@ -289,7 +335,9 @@ export default function ProfilePage() {
                           variant="outline"
                           className={cn(
                             "w-full pl-3 text-left font-normal bg-zinc-800 border-zinc-700",
-                            !field.value ? "text-muted-foreground" : "text-white",
+                            !field.value
+                              ? "text-muted-foreground"
+                              : "text-white",
                           )}
                           onClick={() => setCalendarOpen(true)}
                           type="button"
@@ -303,27 +351,37 @@ export default function ProfilePage() {
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 bg-zinc-800 border-zinc-700" align="start">
+                    <PopoverContent
+                      className="w-auto p-0 bg-zinc-800 border-zinc-700"
+                      align="start"
+                    >
                       <Calendar
                         mode="single"
                         selected={field.value}
                         onSelect={(date) => {
-                          field.onChange(date)
-                          setCalendarOpen(false)
+                          field.onChange(date);
+                          setCalendarOpen(false);
                         }}
-                        disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
                         initialFocus
                         className="bg-zinc-800"
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormMessage className="bg-red-900/20 border border-red-600"/>
+                  <FormMessage className="bg-red-900/20 border border-red-600" />
                 </FormItem>
               )}
             />
 
             <div className="flex justify-end gap-4 pt-4">
-              <Button type="button" variant="outline" onClick={() => router.back()} className="border-zinc-700">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.back()}
+                className="border-zinc-700"
+              >
                 Cancelar
               </Button>
               <Button
@@ -347,5 +405,5 @@ export default function ProfilePage() {
         </Form>
       </div>
     </div>
-  )
+  );
 }

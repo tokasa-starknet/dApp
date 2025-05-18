@@ -1,5 +1,5 @@
-use starknet::ContractAddress;
 use core::serde::Serde;
+use starknet::ContractAddress;
 
 
 #[derive(Drop, Serde, starknet::Store)]
@@ -8,7 +8,7 @@ struct Host {
     //metadata: ByteArray,
     //date: u64,
     //kycDocHash: ByteArray,
-   //MVP data
+    //MVP data
     fullName: ByteArray,
     email: ByteArray,
     phone: ByteArray,
@@ -20,11 +20,10 @@ struct Host {
     //passportNumber: ByteArray,
     //passportExpiry: u64,
     birthDate: u64,
-    
 }
 
 #[starknet::interface]
-trait IHostContract <TContractState> {
+trait IHostContract<TContractState> {
     fn getHost(self: @TContractState, id: u64) -> Host;
     fn getHostId(self: @TContractState, contractAddress: ContractAddress) -> u64;
     fn insertHost(ref self: TContractState, host: Host) -> u64;
@@ -36,14 +35,11 @@ mod host {
     //imports
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     use openzeppelin_access::ownable::OwnableComponent;
-   use starknet::storage::{
-    Map,
-    StoragePathEntry,
-    StoragePointerReadAccess,
-    StoragePointerWriteAccess
+    use starknet::storage::{
+        Map, StoragePathEntry, StoragePointerReadAccess, StoragePointerWriteAccess,
     };
-    use starknet::{get_block_timestamp,ContractAddress, get_caller_address, get_contract_address};
-    
+    use starknet::{ContractAddress, get_block_timestamp, get_caller_address, get_contract_address};
+
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //constants
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -71,23 +67,19 @@ mod host {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     #[constructor]
-    fn constructor(
-        ref self: ContractState,
-        owner: ContractAddress
-    ) {
+    fn constructor(ref self: ContractState, owner: ContractAddress) {
         self.ownable.initializer(owner);
         self.hostCount.write(0);
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //implementation 
+    //implementation
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     #[abi(embed_v0)]
     impl HostImpl of super::IHostContract<ContractState> {
         fn getHost(self: @ContractState, id: u64) -> Host {
-           
-           let host = self.hosts.entry(id).read();
-           host
+            let host = self.hosts.entry(id).read();
+            host
         }
 
         fn getHostId(self: @ContractState, contractAddress: ContractAddress) -> u64 {
@@ -100,32 +92,32 @@ mod host {
             self.hosts.entry(id).write(host);
             self.hostCount.write(id + 1);
 
-            self.emit(
-                HostRegistered {
-                hostId: id,
-                ownerAddress: get_caller_address(),
-                metadataHash: "0x",
-                timestamp: get_block_timestamp()
-            }
-        );
+            self
+                .emit(
+                    HostRegistered {
+                        hostId: id,
+                        ownerAddress: get_caller_address(),
+                        metadataHash: "0x",
+                        timestamp: get_block_timestamp(),
+                    },
+                );
             id
         }
-
     }
 
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //events 
+    //events
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    
+
     #[event]
     #[derive(Drop, starknet::Event)]
     enum Event {
         #[flat]
         OwnableEvent: OwnableComponent::Event,
-        HostRegistered : HostRegistered
+        HostRegistered: HostRegistered,
     }
-   
+
     #[derive(Drop, starknet::Event)]
     struct HostRegistered {
         hostId: u64,
@@ -134,17 +126,15 @@ mod host {
         timestamp: u64,
     }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//public functions
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  fn getIdKeyNext(self: @ContractState) -> u64 {
-    let id = self.hostCount.read();
-    id
-  }
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //public functions
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    fn getIdKeyNext(self: @ContractState) -> u64 {
+        let id = self.hostCount.read();
+        id
+    }
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //private functions
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-   
 
 }

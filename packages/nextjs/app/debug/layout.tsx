@@ -8,7 +8,11 @@ export const metadata: Metadata = {
   description: "Debug Starknet components",
 };
 
-export default function DebugLayout({ children }: { children: React.ReactNode }) {
+export default function DebugLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html suppressHydrationWarning>
       <body suppressHydrationWarning>
@@ -20,4 +24,4 @@ export default function DebugLayout({ children }: { children: React.ReactNode })
       </body>
     </html>
   );
-} 
+}
