@@ -44,7 +44,7 @@ fn test_transfer() {
         contract_address: your_contract_address,
     };
     let erc20_dispatcher = IERC20Dispatcher { contract_address: STRK_TOKEN_CONTRACT_ADDRESS };
-    let amount_to_transfer = 500;
+    let amount_to_transfer: u256 = 500;
     cheat_caller_address(STRK_TOKEN_CONTRACT_ADDRESS, user, CheatSpan::TargetCalls(1));
     erc20_dispatcher.approve(your_contract_address, amount_to_transfer);
     let approved_amount = erc20_dispatcher.allowance(user, your_contract_address);
