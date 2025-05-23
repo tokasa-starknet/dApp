@@ -63,7 +63,7 @@ const deployScript = async (): Promise<void> => {
     },
   });
 
-  await deployContract({
+  const erc1155AddressDeploymentResult = await deployContract({
     contract: "ToKasaFractionalAssets",
     constructorArgs: {
       default_admin: deployer.address,
@@ -75,6 +75,19 @@ const deployScript = async (): Promise<void> => {
       royalty_admin: deployer.address
     },
   });
+
+  const erc1155Address = erc1155AddressDeploymentResult.address;
+
+const kasaSaleDeploymentResult = await deployContract({
+  contract: "kasaSale",
+  constructorArgs: {
+    owner: deployer.address,
+    tokasa_contract: erc1155Address,
+  },
+});
+
+const kasaSaleAddress = kasaSaleDeploymentResult.address;
+console.log(green(`KasaSale contract deployed at address: ${kasaSaleAddress}`));
 
 };
 
