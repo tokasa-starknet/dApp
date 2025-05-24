@@ -7,7 +7,7 @@ const deployedContracts = {
   devnet: {
     YourContract: {
       address:
-        "0x6ac0ad8e195b55e82d1d5068ff82fc46ee6b344d2bdeaae9d60087e736597ca",
+        "0x58ee43e2630839ef9aa91cd640809c9aa344603c8db1840c85d17a3b2665ca7",
       abi: [
         {
           type: "impl",
@@ -277,7 +277,7 @@ const deployedContracts = {
     },
     host: {
       address:
-        "0x39e77047ddd587457951a465dd7223d22762b060d010d09de818f753297ffc4",
+        "0x2b0c5bc83afba8ad6e47354b91125243703b6cb15f9cb4e06a093194ac05fb6",
       abi: [
         {
           type: "impl",
@@ -538,7 +538,7 @@ const deployedContracts = {
     },
     property: {
       address:
-        "0x582a5e8457ec8f0bd687abec778cc086496d7aef6f7418b0e036217da7b8c77",
+        "0xffc0edc6f71d89d6e199791f5b2951bdcca701c628dcae8636adbeba1bb7ce",
       abi: [
         {
           type: "impl",
@@ -835,7 +835,7 @@ const deployedContracts = {
     },
     ToKasaFractionalAssets: {
       address:
-        "0x557ab750d2a74807fcf0a33a55b7d4c42c620e35d5db01357c7548245efcb2f",
+        "0x4acef00125494de04ad4a383eb850ea3d01c29644db47128f78e0de51bbcc6c",
       abi: [
         {
           type: "function",
@@ -2137,7 +2137,7 @@ const deployedContracts = {
     },
     kasaSale: {
       address:
-        "0x115dd6eb6b81ae42eacc4e50b8a70b63b76f86cc50a9a96affbc23c61bfc200",
+        "0x555456f244caa0a0058be2260150694ce48a106799a483b01805ee0acbe00b5",
       abi: [
         {
           type: "impl",

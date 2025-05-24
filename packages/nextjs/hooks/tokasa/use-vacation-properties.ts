@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useToast } from "~~/components/tokasa/ui/use-toast"
 import type { VacationProperty } from "~~/types/vacation-property"
 import { vacationPropertiesData } from "~~/data/vacation-properties"
+import { useKasaSale } from "./use-kasa-sale"
 
 export function useVacationProperties() {
   const [properties, setProperties] = useState<VacationProperty[]>([])
@@ -13,6 +14,7 @@ export function useVacationProperties() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false)
   const { toast } = useToast()
+  const { executeBuy } = useKasaSale()
 
   // Cargar datos iniciales
   useEffect(() => {
@@ -71,21 +73,40 @@ export function useVacationProperties() {
   }
 
   // Confirmar compra de tokens
-  const confirmPurchase = (tokens: number, amount: number) => {
+  const confirmPurchase = async (tokens: number, amount: number) => {
     if (!selectedProperty) return
 
-    // Aquí iría la lógica para procesar la compra con smart contracts
-    toast({
-      title: "¡Compra exitosa!",
-      description: `Has adquirido ${tokens} tokens de ${selectedProperty.title} por un total de $${amount.toFixed(2)}`,
-    })
+    try {
+      // Llamar al contrato
+      const success = await executeBuy(amount)
 
-    // Cerrar el modal de compra
-    closePurchaseModal()
+      if (success) {
+        toast({
+          title: "¡Compra exitosa!",
+          description: `Has adquirido ${tokens} tokens de ${selectedProperty.title} por un total de $${amount.toFixed(2)}`,
+        })
 
-    // Cerrar el drawer si está abierto
-    if (isDetailsOpen) {
-      closePropertyDetails()
+        // Cerrar el modal de compra
+        closePurchaseModal()
+
+        // Cerrar el drawer si está abierto
+        if (isDetailsOpen) {
+          closePropertyDetails()
+        }
+      } else {
+        toast({
+          title: "Error en la compra",
+          description: "No se pudo completar la transacción",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.error("Error en la compra:", error)
+      toast({
+        title: "Error en la compra",
+        description: "Ocurrió un error al procesar la transacción",
+        variant: "destructive",
+      })
     }
   }
 

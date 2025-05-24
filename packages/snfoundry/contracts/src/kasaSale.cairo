@@ -60,7 +60,7 @@ mod kasaSale{
         };
         stark_dispatcher.transfer_from(caller, get_contract_address(), amount);
         //se pasan los Kasa al caller
-        let tokasa_dispatcher = IERC1155Dispatcher {
+       let tokasa_dispatcher = IERC1155Dispatcher {
             contract_address: self.tokasa_contract.read(),
         };
         tokasa_dispatcher.safe_transfer_from(self.owner.read(), caller, 1, amount, ArrayTrait::new().span());
