@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Home, BarChart3, Wallet, History, Settings } from "lucide-react";
+import { Home, BarChart3, Wallet, History, Settings,Palmtree } from "lucide-react";
 //scaffold-stark
 import { CustomConnectButton } from "~~/components/tokasa/CustomConnectButton";
 import { useAccount, useNetwork, useProvider } from "@starknet-react/core";
@@ -72,16 +72,20 @@ export function Sidebar() {
       </div>
 
       <nav className={tokasaNavSection}>
-        <Link href="/dashboard" className={tokasaNavItem.active}>
-          <Home className="h-5 w-5" />
-          <span>Properties</span>
-        </Link>
+        
         <Link
           href="/dashboard/admin"
           className="flex items-center space-x-2 px-3 py-2 rounded-lg text-white/70 hover:text-white hover:bg-zinc-800"
         >
           <Settings className="h-5 w-5" />
           <span>Administración</span>
+        </Link>
+        <Link
+          href="/dashboard/vacation-properties"
+          className="flex items-center space-x-2 px-3 py-2 rounded-lg text-white/70 hover:text-white hover:bg-zinc-800"
+        >
+          <Palmtree className="h-5 w-5" />
+          <span>Casas Vacacionales</span>
         </Link>
         <Link
           href="/dashboard?tab=portfolio"

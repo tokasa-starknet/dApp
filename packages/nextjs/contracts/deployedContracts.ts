@@ -7,7 +7,7 @@ const deployedContracts = {
   devnet: {
     YourContract: {
       address:
-        "0x4940802bb0fe9baf9dfd18058adc453640d429a7bebdb236cf6fb5b27f0ab0a",
+        "0x58ee43e2630839ef9aa91cd640809c9aa344603c8db1840c85d17a3b2665ca7",
       abi: [
         {
           type: "impl",
@@ -277,7 +277,7 @@ const deployedContracts = {
     },
     host: {
       address:
-        "0x5deab2f9b9f62fdf08c3aedf4e66db63a91881a4a5b086c428b91285335365f",
+        "0x2b0c5bc83afba8ad6e47354b91125243703b6cb15f9cb4e06a093194ac05fb6",
       abi: [
         {
           type: "impl",
@@ -538,7 +538,7 @@ const deployedContracts = {
     },
     property: {
       address:
-        "0x2c1aa748a5d30bbc8ecb7c78168d297837d692d90f0cf4701ed6ca3f09e50a9",
+        "0xffc0edc6f71d89d6e199791f5b2951bdcca701c628dcae8636adbeba1bb7ce",
       abi: [
         {
           type: "impl",
@@ -835,7 +835,7 @@ const deployedContracts = {
     },
     ToKasaFractionalAssets: {
       address:
-        "0x124ec897ba8bd736e0c5f54881c525eaf26bab4b8f3ee47926a787fe137432c",
+        "0x4acef00125494de04ad4a383eb850ea3d01c29644db47128f78e0de51bbcc6c",
       abi: [
         {
           type: "function",
@@ -2134,6 +2134,169 @@ const deployedContracts = {
       ],
       classHash:
         "0x5b8b9ba0bc95fa1e82843e18e47b08e6bf8ca371f678d9125ff0e7fda2516d8",
+    },
+    kasaSale: {
+      address:
+        "0x555456f244caa0a0058be2260150694ce48a106799a483b01805ee0acbe00b5",
+      abi: [
+        {
+          type: "impl",
+          name: "KasaSaleContract",
+          interface_name: "contracts::kasaSale::kasaSale::IKasaSaleContract",
+        },
+        {
+          type: "struct",
+          name: "core::integer::u256",
+          members: [
+            {
+              name: "low",
+              type: "core::integer::u128",
+            },
+            {
+              name: "high",
+              type: "core::integer::u128",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::kasaSale::kasaSale::IKasaSaleContract",
+          items: [
+            {
+              type: "function",
+              name: "buy",
+              inputs: [
+                {
+                  name: "amount",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "impl",
+          name: "OwnableImpl",
+          interface_name: "openzeppelin_access::ownable::interface::IOwnable",
+        },
+        {
+          type: "interface",
+          name: "openzeppelin_access::ownable::interface::IOwnable",
+          items: [
+            {
+              type: "function",
+              name: "owner",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "transfer_ownership",
+              inputs: [
+                {
+                  name: "new_owner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "renounce_ownership",
+              inputs: [],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "constructor",
+          name: "constructor",
+          inputs: [
+            {
+              name: "owner",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "tokasa_contract",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnershipTransferred",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+              kind: "nested",
+            },
+            {
+              name: "OwnershipTransferStarted",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+              kind: "nested",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::kasaSale::kasaSale::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnableEvent",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+              kind: "flat",
+            },
+          ],
+        },
+      ],
+      classHash:
+        "0x556e0dc439e3762d3ddd6a35f507c106167b9499f89c2651e8725554931840c",
     },
   },
 } as const;
