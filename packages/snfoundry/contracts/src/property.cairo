@@ -1,6 +1,16 @@
 use core::serde::Serde;
 use starknet::ContractAddress;
 use starknet::storage::Vec;
+use starknet::storage::Map;
+
+#[derive(Drop, Serde, starknet::Store)]
+struct Earning {
+    earning: u64,
+    date: felt252,
+    percentageToPay: u64,
+    mounthlyEarnings: u64,
+    paid: bool
+}
 
 #[derive(Drop, Serde, starknet::Store)]
 struct Property {
@@ -19,6 +29,8 @@ struct Property {
     //principal document tokenized
     contract_ipfs_hash_token: ByteArray,
     legal_contract_signature: ByteArray,
+    saleableTokenPercentage: u64,
+  
 }
 
 #[starknet::interface]
@@ -29,6 +41,11 @@ trait IPropertyContract<TContractState> {
     //this data is temporary for the hackaton
     //i will be removed after the hackaton and call the host contract
     fn insertProperty(ref self: TContractState, property: Property, hostId: u64) -> u64;
+    
+    // Nuevos métodos para manejar earnings
+    fn get_property_earnings(self: @TContractState, property_id: u64) -> Array<Earning>;
+    fn get_latest_earning(self: @TContractState, property_id: u64) -> Option<Earning>;
+    fn add_earning(ref self: TContractState, property_id: u64, earning: Earning);
 }
 
 #[starknet::contract]
@@ -60,6 +77,12 @@ mod property {
     #[storage]
     struct Storage {
         properties: Map<u64, Property>,
+        //<propertyId, Earning>
+        earnings: Map<u64, Earning>,
+        // Mantiene un contador de earnings por propiedad
+        property_earnings_count: Map<u64, u64>,
+        // Mantiene un array ordenado de IDs de earnings por propiedad
+        property_earnings_timeline: Map<u64, Vec<u64>>,
         propertyHostId: Map<u64, Vec<u64>>,
         propertyCount: u64,
         #[substorage(v0)]
@@ -128,6 +151,100 @@ mod property {
                 );
 
             propertyId
+        }
+
+        fn get_property_earnings(self: @ContractState, property_id: u64) -> Array<Earning> {
+            let mut result: Array<Earning> = ArrayTrait::new();
+            let timeline = @self.property_earnings_timeline.entry(property_id);
+            let timeline_len = timeline.len();
+
+            let mut i = 0;
+            loop {
+                if i == timeline_len {
+                    break;
+                }
+                let earning_id = timeline.at(i).read();
+                result.append(self.earnings.entry(earning_id).read());
+                i += 1;
+            };
+            
+            result
+        }
+
+        fn get_latest_earning(self: @ContractState, property_id: u64) -> Option<Earning> {
+            let timeline = @self.property_earnings_timeline.entry(property_id);
+            let timeline_len = timeline.len();
+            
+            if timeline_len == 0 {
+                return Option::None;
+            }
+            
+            let latest_earning_id = timeline.at(timeline_len - 1).read();
+            Option::Some(self.earnings.entry(latest_earning_id).read())
+        }
+
+        fn add_earning(ref self: ContractState, property_id: u64, earning: Earning) {
+            // Obtener y actualizar el contador de earnings
+            let earning_count = self.property_earnings_count.entry(property_id).read();
+            let earning_id = earning_count + 1;
+            
+            // Guardar el earning
+            self.earnings.entry(earning_id).write(earning);
+            
+            // Actualizar el timeline
+            self.property_earnings_timeline.entry(property_id).append().write(earning_id);
+            
+            // Actualizar el contador
+            self.property_earnings_count.entry(property_id).write(earning_id);
+        }
+    }
+
+    // Agregar función helper para obtener los earnings de una propiedad ordenados cronológicamente
+    #[generate_trait]
+    impl PropertyHelperImpl of PropertyHelperTrait {
+        fn get_property_earnings(self: @ContractState, property_id: u64) -> Array<Earning> {
+            let mut result: Array<Earning> = ArrayTrait::new();
+            let timeline = @self.property_earnings_timeline.entry(property_id);
+            let timeline_len = timeline.len();
+
+            let mut i = 0;
+            loop {
+                if i == timeline_len {
+                    break;
+                }
+                let earning_id = timeline.at(i).read();
+                result.append(self.earnings.entry(earning_id).read());
+                i += 1;
+            };
+            
+            result
+        }
+
+        fn get_latest_earning(self: @ContractState, property_id: u64) -> Option<Earning> {
+            let timeline = @self.property_earnings_timeline.entry(property_id);
+            let timeline_len = timeline.len();
+            
+            if timeline_len == 0 {
+                return Option::None;
+            }
+            
+            let latest_earning_id = timeline.at(timeline_len - 1).read();
+            Option::Some(self.earnings.entry(latest_earning_id).read())
+        }
+
+        fn add_earning(ref self: ContractState, property_id: u64, earning: Earning) {
+            // Obtener y actualizar el contador de earnings
+            let earning_count = self.property_earnings_count.entry(property_id).read();
+            let earning_id = earning_count + 1;
+            
+            // Guardar el earning
+            self.earnings.entry(earning_id).write(earning);
+            
+            // Actualizar el timeline
+            self.property_earnings_timeline.entry(property_id).append().write(earning_id);
+            
+            // Actualizar el contador
+            self.property_earnings_count.entry(property_id).write(earning_id);
         }
     }
 

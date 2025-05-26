@@ -41,7 +41,7 @@ export function TokenPurchaseModal({ property, isOpen, onClose, onConfirm }: Tok
       <div className="fixed inset-0 bg-black/70" onClick={onClose}></div>
       <div className="relative w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-lg p-6 shadow-xl">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white">Invertir en {property.title}</h2>
+          <h2 className="text-xl font-bold text-white">Invest in {property.title}</h2>
           <Button variant="ghost" size="icon" onClick={onClose} className="text-white/70 hover:text-white">
             <X className="h-5 w-5" />
           </Button>
@@ -50,18 +50,18 @@ export function TokenPurchaseModal({ property, isOpen, onClose, onConfirm }: Tok
         <div className="space-y-6">
           <div className="bg-zinc-800 rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-white/80">Valor por token:</span>
+              <span className="text-white/80">Token value:</span>
               <span className="font-bold text-white">${property.tokenPrice}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-white/80">Tokens disponibles:</span>
+              <span className="text-white/80">Available tokens:</span>
               <span className="font-bold text-white">{Math.floor(property.availableTokens)}</span>
             </div>
           </div>
 
           <div>
             <label htmlFor="tokens" className="block text-sm font-medium text-white/80 mb-2">
-              Cantidad de tokens a comprar
+              Number of tokens to buy
             </label>
             <div className="flex items-center gap-2">
               <Button
@@ -109,7 +109,7 @@ export function TokenPurchaseModal({ property, isOpen, onClose, onConfirm }: Tok
 
           <div>
             <label htmlFor="amount" className="block text-sm font-medium text-white/80 mb-2">
-              Monto total a invertir
+              Total investment amount
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60">$</span>
@@ -136,7 +136,7 @@ export function TokenPurchaseModal({ property, isOpen, onClose, onConfirm }: Tok
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <Calculator className="h-4 w-4 mr-2 text-green-400" />
-                <span className="text-white/80">Retorno anual estimado:</span>
+                <span className="text-white/80">Estimated annual return:</span>
               </div>
               <span className="font-bold text-green-400">${((amount * property.apr) / 100).toFixed(2)}</span>
             </div>
@@ -144,7 +144,7 @@ export function TokenPurchaseModal({ property, isOpen, onClose, onConfirm }: Tok
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <CreditCard className="h-4 w-4 mr-2 text-purple-400" />
-                  <span className="text-white">Total a pagar:</span>
+                  <span className="text-white">Total to pay:</span>
                 </div>
                 <span className="font-bold text-white">${amount.toFixed(2)}</span>
               </div>
@@ -153,13 +153,13 @@ export function TokenPurchaseModal({ property, isOpen, onClose, onConfirm }: Tok
 
           <div className="flex gap-3">
             <Button variant="outline" className="flex-1 border-zinc-700 bg-zinc-800 text-white" onClick={onClose}>
-              Cancelar
+              Cancel
             </Button>
             <Button
               className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
               onClick={() => onConfirm(tokens, amount)}
             >
-              Confirmar compra
+              Confirm Purchase
             </Button>
           </div>
         </div>

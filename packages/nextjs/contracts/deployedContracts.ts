@@ -7,7 +7,7 @@ const deployedContracts = {
   devnet: {
     YourContract: {
       address:
-        "0x58ee43e2630839ef9aa91cd640809c9aa344603c8db1840c85d17a3b2665ca7",
+        "0x55300f619fdb73ce840d32f49472f99fabeb526b748bfae75780de3459395fa",
       abi: [
         {
           type: "impl",
@@ -277,7 +277,7 @@ const deployedContracts = {
     },
     host: {
       address:
-        "0x2b0c5bc83afba8ad6e47354b91125243703b6cb15f9cb4e06a093194ac05fb6",
+        "0x66a7802e63b633cdf2e4f482d11d17d55f32c7392c017313bff6571da5dd15",
       abi: [
         {
           type: "impl",
@@ -538,7 +538,7 @@ const deployedContracts = {
     },
     property: {
       address:
-        "0xffc0edc6f71d89d6e199791f5b2951bdcca701c628dcae8636adbeba1bb7ce",
+        "0x4e140a224d57420e53e6f7505a47df3f16d88b8a8a03ece42f12086077990b9",
       abi: [
         {
           type: "impl",
@@ -623,6 +623,64 @@ const deployedContracts = {
               name: "legal_contract_signature",
               type: "core::byte_array::ByteArray",
             },
+            {
+              name: "saleableTokenPercentage",
+              type: "core::integer::u64",
+            },
+          ],
+        },
+        {
+          type: "enum",
+          name: "core::bool",
+          variants: [
+            {
+              name: "False",
+              type: "()",
+            },
+            {
+              name: "True",
+              type: "()",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "contracts::property::Earning",
+          members: [
+            {
+              name: "earning",
+              type: "core::integer::u64",
+            },
+            {
+              name: "date",
+              type: "core::felt252",
+            },
+            {
+              name: "percentageToPay",
+              type: "core::integer::u64",
+            },
+            {
+              name: "mounthlyEarnings",
+              type: "core::integer::u64",
+            },
+            {
+              name: "paid",
+              type: "core::bool",
+            },
+          ],
+        },
+        {
+          type: "enum",
+          name: "core::option::Option::<contracts::property::Earning>",
+          variants: [
+            {
+              name: "Some",
+              type: "contracts::property::Earning",
+            },
+            {
+              name: "None",
+              type: "()",
+            },
           ],
         },
         {
@@ -679,6 +737,54 @@ const deployedContracts = {
                   type: "core::integer::u64",
                 },
               ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_property_earnings",
+              inputs: [
+                {
+                  name: "property_id",
+                  type: "core::integer::u64",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::array::Array::<contracts::property::Earning>",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_latest_earning",
+              inputs: [
+                {
+                  name: "property_id",
+                  type: "core::integer::u64",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::option::Option::<contracts::property::Earning>",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "add_earning",
+              inputs: [
+                {
+                  name: "property_id",
+                  type: "core::integer::u64",
+                },
+                {
+                  name: "earning",
+                  type: "contracts::property::Earning",
+                },
+              ],
+              outputs: [],
               state_mutability: "external",
             },
           ],
@@ -831,11 +937,11 @@ const deployedContracts = {
         },
       ],
       classHash:
-        "0x72521974a5432837ffd1ccd8c40d7815744efa2a038b4a9a59c5987e9b3954d",
+        "0x3665c94220405c8bd57b9458fcc28c13c8ad3278e388eca7599f39fe513db1c",
     },
     ToKasaFractionalAssets: {
       address:
-        "0x4acef00125494de04ad4a383eb850ea3d01c29644db47128f78e0de51bbcc6c",
+        "0x1c59d381f9a54ad6a60b3c614e9a8af61d8171ac05af7a257a33589228ec22a",
       abi: [
         {
           type: "function",
@@ -2137,7 +2243,7 @@ const deployedContracts = {
     },
     kasaSale: {
       address:
-        "0x555456f244caa0a0058be2260150694ce48a106799a483b01805ee0acbe00b5",
+        "0x42883318a36739af4d5ce01bb3a9fd4339f8a6086716cab01e9f7887bba5174",
       abi: [
         {
           type: "impl",

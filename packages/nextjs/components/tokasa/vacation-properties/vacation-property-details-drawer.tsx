@@ -38,7 +38,7 @@ export function VacationPropertyDetailsDrawer({
       <div className="fixed inset-0 bg-black/50" onClick={onClose}></div>
       <div className="relative w-full max-w-md bg-zinc-900 border-l border-zinc-800 overflow-y-auto">
         <div className="sticky top-0 z-10 bg-zinc-900 border-b border-zinc-800 p-4 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-white">Detalles de la propiedad</h2>
+          <h2 className="text-xl font-bold text-white">Property Details</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-5 w-5" />
           </Button>
@@ -66,50 +66,50 @@ export function VacationPropertyDetailsDrawer({
               <p className="text-xl font-bold text-green-400">{property.apr}%</p>
             </div>
             <div className="bg-zinc-800 rounded-lg p-3">
-              <p className="text-sm text-white/60">Valor Token</p>
+              <p className="text-sm text-white/60">Token Value</p>
               <p className="text-xl font-bold text-white">${property.tokenPrice}</p>
             </div>
           </div>
 
           <div className="mb-6">
-            <h4 className="font-medium mb-2 text-white">Descripción</h4>
+            <h4 className="font-medium mb-2 text-white">Description</h4>
             <p className="text-white/80">{property.description}</p>
           </div>
 
           <div className="grid grid-cols-3 gap-3 mb-6">
             <div className="bg-zinc-800 rounded-lg p-3 text-center">
               <BedDouble className="h-5 w-5 mx-auto mb-1 text-white/60" />
-              <p className="text-sm text-white/60">Habitaciones</p>
+              <p className="text-sm text-white/60">Bedrooms</p>
               <p className="font-medium text-white">{property.bedrooms}</p>
             </div>
             <div className="bg-zinc-800 rounded-lg p-3 text-center">
               <Bath className="h-5 w-5 mx-auto mb-1 text-white/60" />
-              <p className="text-sm text-white/60">Baños</p>
+              <p className="text-sm text-white/60">Bathrooms</p>
               <p className="font-medium text-white">{property.bathrooms}</p>
             </div>
             <div className="bg-zinc-800 rounded-lg p-3 text-center">
               <SquareIcon className="h-5 w-5 mx-auto mb-1 text-white/60" />
-              <p className="text-sm text-white/60">Área</p>
+              <p className="text-sm text-white/60">Area</p>
               <p className="font-medium text-white">{property.area} m²</p>
             </div>
           </div>
 
           <div className="mb-6">
-            <h4 className="font-medium mb-2 text-white">Disponibilidad</h4>
+            <h4 className="font-medium mb-2 text-white">Availability</h4>
             <div className="bg-zinc-800 rounded-lg p-3">
               <div className="flex items-center mb-2">
                 <Calendar className="h-5 w-5 mr-2 text-white/60" />
-                <p className="text-white/80">Temporada alta: {property.highSeason}</p>
+                <p className="text-white/80">High Season: {property.highSeason}</p>
               </div>
               <div className="flex items-center">
                 <Calendar className="h-5 w-5 mr-2 text-white/60" />
-                <p className="text-white/80">Temporada baja: {property.lowSeason}</p>
+                <p className="text-white/80">Low Season: {property.lowSeason}</p>
               </div>
             </div>
           </div>
 
           <div className="mb-6">
-            <h4 className="font-medium mb-2 text-white">Amenidades</h4>
+            <h4 className="font-medium mb-2 text-white">Amenities</h4>
             <div className="grid grid-cols-2 gap-2">
               {property.amenities.map((amenity) => (
                 <Badge
@@ -125,26 +125,26 @@ export function VacationPropertyDetailsDrawer({
           </div>
 
           <div className="mb-6">
-            <h4 className="font-medium mb-2 text-white">Financiación</h4>
+            <h4 className="font-medium mb-2 text-white">Funding</h4>
             <div className="flex justify-between text-sm mb-1">
-              <span className="text-white/80">Progreso: {property.funded}%</span>
+              <span className="text-white/80">Progress: {property.funded}%</span>
               <span
                 className={
                   property.funded >= 75 ? "text-green-400" : property.funded >= 50 ? "text-blue-400" : "text-yellow-400"
                 }
               >
-                {property.funded >= 75 ? "Avanzado" : property.funded >= 50 ? "En progreso" : "Inicial"}
+                {property.funded >= 75 ? "Advanced" : property.funded >= 50 ? "In Progress" : "Initial"}
               </span>
             </div>
             <Progress value={property.funded} className="h-2 mb-4 bg-zinc-800" />
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-white/60">Inversión mínima</p>
+                <p className="text-sm text-white/60">Minimum Investment</p>
                 <p className="font-medium text-white">${property.minInvestment}</p>
               </div>
               <div>
-                <p className="text-sm text-white/60">Tokens disponibles</p>
+                <p className="text-sm text-white/60">Available Tokens</p>
                 <p className="font-medium text-white">
                   {Math.floor(((100 - property.funded) / 100) * property.totalTokens)}
                 </p>
@@ -153,18 +153,18 @@ export function VacationPropertyDetailsDrawer({
           </div>
 
           <div className="mb-6">
-            <h4 className="font-medium mb-2 text-white">Rendimiento histórico</h4>
+            <h4 className="font-medium mb-2 text-white">Historical Performance</h4>
             <div className="bg-zinc-800 rounded-lg p-4 space-y-3">
               <div className="flex justify-between">
-                <span className="text-white/80">Ocupación anual promedio</span>
+                <span className="text-white/80">Average Annual Occupancy</span>
                 <span className="font-medium text-white">{property.occupancyRate}%</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-white/80">Ingresos anuales estimados</span>
+                <span className="text-white/80">Estimated Annual Income</span>
                 <span className="font-medium text-white">${property.annualIncome.toLocaleString()}</span>
               </div>
               <div className="flex justify-between border-t border-zinc-700 pt-2">
-                <span className="text-white">APR histórico</span>
+                <span className="text-white">Historical APR</span>
                 <span className="font-bold text-green-400">{property.apr}%</span>
               </div>
             </div>
@@ -175,11 +175,10 @@ export function VacationPropertyDetailsDrawer({
               onClick={onInvest}
               className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 py-6 text-lg"
             >
-              Invertir Ahora
+              Invest Now
             </Button>
             <p className="text-xs text-white/60 text-center mt-2">
-              Al invertir, aceptas los términos y condiciones de ToKasa y confirmas que has leído la documentación de la
-              propiedad.
+              By investing, you accept ToKasa's terms and conditions and confirm that you have read the property documentation.
             </p>
           </div>
         </div>
