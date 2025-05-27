@@ -13,7 +13,7 @@ import {
 import { ContractAbi, ContractName } from "./contract";
 import { feltToHex } from "./common";
 
-const stringToByteArrayFelt = (str: string): string[] => {
+export const stringToByteArrayFelt = (str: string): string[] => {
   const bytes = new TextEncoder().encode(str);
   const result = [];
   const numFullWords = Math.floor(bytes.length / 31);

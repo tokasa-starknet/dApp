@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useToast } from "~~/components/tokasa/ui/use-toast"
+import { useToast } from "~~/hooks/use-toast"
 import type { VacationProperty } from "~~/types/vacation-property"
 import { vacationPropertiesData } from "~~/data/vacation-properties"
 import { useKasaSale } from "./use-kasa-sale"

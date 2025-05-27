@@ -178,7 +178,7 @@ export function VacationPropertyDetailsDrawer({
               Invest Now
             </Button>
             <p className="text-xs text-white/60 text-center mt-2">
-              By investing, you accept ToKasa's terms and conditions and confirm that you have read the property documentation.
+              By investing, you accept ToKasa&apos;s terms and conditions and confirm that you have read the property documentation.
             </p>
           </div>
         </div>
