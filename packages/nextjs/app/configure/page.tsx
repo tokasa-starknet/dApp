@@ -7,6 +7,9 @@ export const metadata = getMetadata({
   description: "Configure your deployed 🏗 Scaffold-Stark 2 contracts",
 });
 
+// Deshabilitar prerendering estático para esta página
+export const dynamic = 'force-dynamic';
+
 const Configure: NextPage = () => {
   return <DownloadContracts />;
 };

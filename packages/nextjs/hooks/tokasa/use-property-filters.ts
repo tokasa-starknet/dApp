@@ -68,23 +68,23 @@ export function usePropertyFilters() {
   }, [])
 
   const filteredProperties = useMemo(() => {
-    return properties.filter((property) => {
+    return vacationPropertiesData.filter((property) => {
       // Filtro por búsqueda
       if (
         filters.searchQuery &&
-        !property.name.toLowerCase().includes(filters.searchQuery.toLowerCase()) &&
+        !property.title.toLowerCase().includes(filters.searchQuery.toLowerCase()) &&
         !property.location.toLowerCase().includes(filters.searchQuery.toLowerCase())
       ) {
         return false
       }
 
-      // Filtro por rango de precio
-      if (property.price < filters.priceRange[0] || property.price > filters.priceRange[1]) {
+      // Filtro por rango de precio (usando tokenPrice)
+      if (property.tokenPrice < filters.priceRange[0] || property.tokenPrice > filters.priceRange[1]) {
         return false
       }
 
-      // Filtro por rango de retorno
-      if (property.return < filters.returnRange[0] || property.return > filters.returnRange[1]) {
+      // Filtro por rango de retorno (usando apr)
+      if (property.apr < filters.returnRange[0] || property.apr > filters.returnRange[1]) {
         return false
       }
 

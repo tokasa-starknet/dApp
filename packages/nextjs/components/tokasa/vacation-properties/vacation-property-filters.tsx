@@ -7,7 +7,7 @@ export function VacationPropertyFilters() {
   return (
     <div className="bg-zinc-900 rounded-lg border border-zinc-800 p-4 grid grid-cols-1 md:grid-cols-4 gap-4">
       <div>
-        <h3 className="text-sm font-medium mb-3">Rango de precio por token</h3>
+        <h3 className="text-sm font-medium mb-3">Token Price Range</h3>
         <div className="px-2">
           <Slider defaultValue={[50, 500]} min={10} max={1000} step={10} />
         </div>
@@ -29,9 +29,9 @@ export function VacationPropertyFilters() {
       </div>
 
       <div>
-        <h3 className="text-sm font-medium mb-3">Ubicación</h3>
+        <h3 className="text-sm font-medium mb-3">Location</h3>
         <div className="flex flex-wrap gap-2">
-          {["España", "México", "Colombia", "Portugal", "Italia"].map((location) => (
+          {["Spain", "Mexico", "Colombia", "Portugal", "Italy"].map((location) => (
             <Badge
               key={location}
               variant="outline"
@@ -44,9 +44,9 @@ export function VacationPropertyFilters() {
       </div>
 
       <div>
-        <h3 className="text-sm font-medium mb-3">Amenidades</h3>
+        <h3 className="text-sm font-medium mb-3">Amenities</h3>
         <div className="flex flex-wrap gap-2">
-          {["Piscina", "Playa", "Wifi", "Terraza", "Jardín"].map((amenity) => (
+          {["Pool", "Beach", "Wifi", "Terrace", "Garden"].map((amenity) => (
             <Badge
               key={amenity}
               variant="outline"
@@ -60,10 +60,10 @@ export function VacationPropertyFilters() {
 
       <div className="md:col-span-4 flex justify-end gap-2 pt-2 border-t border-zinc-800">
         <Button variant="outline" className="border-zinc-700 bg-zinc-800 text-white hover:bg-zinc-700">
-          Limpiar filtros
+          Clear Filters
         </Button>
         <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-          Aplicar filtros
+          Apply Filters
         </Button>
       </div>
     </div>

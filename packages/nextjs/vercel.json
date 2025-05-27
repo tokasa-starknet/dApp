@@ -1,3 +1,32 @@
 {
-  "installCommand": "yarn install"
+  "buildCommand": "yarn build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "yarn install",
+  "functions": {
+    "app/**/*.tsx": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/sw.js",
+      "destination": "/sw.js"
+    }
+  ]
 }

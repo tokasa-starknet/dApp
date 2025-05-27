@@ -10,7 +10,7 @@ type UseScaffoldEthBalanceProps = {
 };
 
 const useScaffoldEthBalance = ({ address }: UseScaffoldEthBalanceProps) => {
-  const { data: deployedContract } = useDeployedContractInfo("Eth");
+  const { data: deployedContract } = useDeployedContractInfo("Strk");
 
   const { data, ...props } = useReadContract({
     functionName: "balance_of",
@@ -25,7 +25,7 @@ const useScaffoldEthBalance = ({ address }: UseScaffoldEthBalanceProps) => {
   return {
     value: data as unknown as bigint,
     decimals: 18,
-    symbol: "ETH",
+    symbol: "STRK",
     formatted: data ? formatUnits(data as unknown as bigint) : "0",
     ...props,
   };
