@@ -13,3 +13,7 @@ package-lock.json
 .eslintcache
 .DS_Store
 .vercel
+
+/generated/prisma
+
+/generated/prisma
