@@ -10,7 +10,7 @@ CREATE TABLE "Property" (
     "latitude" DECIMAL(65,30),
     "longitude" DECIMAL(65,30),
     "area_sqm" DECIMAL(65,30),
-    "amenities" JSONB,
+    "amenities" TEXT[],
     "estimated_value" DECIMAL(65,30) NOT NULL,
     "tokenization_percentage" DECIMAL(65,30) NOT NULL,
     "total_tokens" INTEGER NOT NULL,
