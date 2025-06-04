@@ -27,9 +27,11 @@
     "format:check": "yarn workspace @ss-2/nextjs format:check && yarn workspace @ss-2/snfoundry format:check",
     "prepare": "husky",
     "verify": "yarn workspace @ss-2/snfoundry verify",
+    "db:init":"yarn prisma init --datasource-provider postgresql",
     "db:dev:up": "docker-compose up -d",
+    "db:migrate:gen":"yarn prisma generate",
     "db:migrate:dev": "npx prisma migrate dev",
-    "db:studio": "npx prisma studio",
+    "db:studio": "yarn prisma studio",
     "db:seed": "ts-node prisma/seed.ts"
   },
   "packageManager": "yarn@3.2.3",
