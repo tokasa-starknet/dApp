@@ -26,18 +26,31 @@
     "format": "yarn workspace @ss-2/nextjs format && yarn workspace @ss-2/snfoundry format",
     "format:check": "yarn workspace @ss-2/nextjs format:check && yarn workspace @ss-2/snfoundry format:check",
     "prepare": "husky",
-    "verify": "yarn workspace @ss-2/snfoundry verify"
+    "verify": "yarn workspace @ss-2/snfoundry verify",
+    "db:init":"yarn prisma init --datasource-provider postgresql",
+    "db:dev:up": "docker-compose up -d",
+    "db:migrate:gen":"yarn prisma generate",
+    "db:migrate:dev": "npx prisma migrate dev",
+    "db:studio": "yarn prisma studio",
+    "db:seed": "ts-node prisma/seed.ts"
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
     "@next/swc-linux-x64-gnu": "^15.3.1",
     "@next/swc-linux-x64-musl": "^15.3.1",
+    "@types/node": "^22.15.29",
+    "@types/uuid": "^10.0.0",
     "daisyui": "^4.7.3",
     "husky": "^9.0.11",
     "pinst": "^3.0.0",
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "prisma": "^6.8.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
-    "postcss": "^8.4.38"
+    "@prisma/client": "^6.8.2",
+    "postcss": "^8.4.38",
+    "uuid": "^11.1.0"
   }
 }

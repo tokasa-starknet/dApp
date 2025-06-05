@@ -86,6 +86,41 @@ yarn start
 
 Visit `http://localhost:3000` to see the application.
 
+### 5. Steps to set up the database using Docker
+
+#### Set up Docker container
+```bash
+db:dev:up
+
+```
+
+#### Set up the database
+
+##### 1. Init the database 
+```bash
+yarn db:init
+```
+
+##### 2. Generate database
+```bash
+yarn db:migrate:gen
+```
+
+##### 3. Database migration
+```bash
+yarn db:migrate:dev
+```
+
+##### 4. Seed the database
+```bash
+yarn db:seed
+```
+
+
+Visit `dApp/prisma` to see the database schema
+
+
+
 ## 🏗️ Project Structure
 
 ```

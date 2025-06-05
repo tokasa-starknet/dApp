@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PROPERTY_STATUS {
+  Pending
+  Verified
+  Rejected
+}
+
+model Property {
+  owner_id                String          @id @db.VarChar(12)
+  title                   String
+  description             String
+  address                 String
+  latitude                Decimal?
+  longitude               Decimal?
+  area_sqm                Decimal?
+  amenities               String[]
+  estimated_value         Decimal
+  tokenization_percentage Decimal
+  total_tokens            Int
+  price_per_token         Decimal
+  verification_status     PROPERTY_STATUS @default(Pending)
+  legal_docs_hash         String
+  metadata_ipfs_hash      String
+  registration_tx_hash    String          @db.VarChar(200)
+  created_at              DateTime
+  updated_at              DateTime
+}
