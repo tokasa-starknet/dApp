@@ -2,16 +2,14 @@
 
 import Link from 'next/link';
 import { SiDiscord } from 'react-icons/si';
-import { Twitter, Instagram, Github, Send, Mail } from 'lucide-react';
+import { X, Send, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Footer() {
   const socials = [
-    { label: 'Discord', href: 'https://discord.gg/your-server', icon: SiDiscord },
-    { label: 'Twitter', href: 'https://twitter.com/your-handle', icon: Twitter },
-    { label: 'Instagram', href: 'https://instagram.com/your-profile', icon: Instagram },
-    { label: 'GitHub', href: 'https://github.com/your-repo', icon: Github },
-    { label: 'Telegram', href: 'https://t.me/your-channel', icon: Send },
+    { label: 'Discord', href: 'https://discord.gg/', icon: SiDiscord },
+    { label: 'X', href: 'https://x.com/ToKasa_RWA', icon: X },
+    { label: 'Telegram', href: 'https://t.me/', icon: Send },
   ];
 
   return (
@@ -21,8 +19,7 @@ export default function Footer() {
         <div>
           <h3 className="text-2xl font-extrabold mb-4">ToKasa</h3>
           <p className="text-sm text-blue-300 leading-relaxed">
-            Empowering global investors with fractional ownership of
-            premium vacation properties via blockchain tokenization.
+            Democratizing vacation-rental investment with blockchain-backed fractional ownership and rewards.
           </p>
         </div>
 
@@ -30,20 +27,77 @@ export default function Footer() {
         <div>
           <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
           <ul className="space-y-3 text-sm text-blue-200">
-            <li><Link href="/opportunities" className="hover:text-white">Explore Opportunities</Link></li>
-            <li><Link href="/faq" className="hover:text-white">FAQ</Link></li>
-            <li><Link href="/roadmap" className="hover:text-white">Roadmap</Link></li>
-            <li><Link href="/litepaper.pdf" className="hover:text-white" target="_blank" rel="noopener noreferrer">Litepaper ↗</Link></li>
+            <li>
+              <Link href="/opportunities" className="hover:text-white">
+                Explore Opportunities
+              </Link>
+            </li>
+            <li>
+              <Link href="#faq" className="hover:text-white">
+                FAQ
+              </Link>
+            </li>
+            <li>
+              <Link href="#roadmap" className="hover:text-white">
+                Roadmap
+              </Link>
+            </li>
+            <li>
+              <a
+                href="/litepaper.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                Litepaper ↗
+              </a>
+            </li>
           </ul>
         </div>
 
-        {/* Community */}
+        {/* Contact Us */}
         <div>
-          <h4 className="text-lg font-semibold mb-4">Community</h4>
+          <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
           <ul className="space-y-3 text-sm text-blue-200">
-            <li><a href="https://discord.gg/your-server" target="_blank" rel="noopener noreferrer" className="hover:text-white">Discord</a></li>
-            <li><a href="https://twitter.com/your-handle" target="_blank" rel="noopener noreferrer" className="hover:text-white">Twitter</a></li>
-            <li><a href="https://t.me/your-channel" target="_blank" rel="noopener noreferrer" className="hover:text-white">Telegram</a></li>
+            <li className="flex items-center gap-2">
+              <Mail size={16} className="text-blue-400" />
+              <a href="mailto:support@tokasa.com" className="hover:text-white">
+                support@tokasa.com
+              </a>
+            </li>
+            <li className="flex items-center gap-2">
+              <SiDiscord size={16} className="text-blue-400" />
+              <a
+                href="https://discord.gg/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                Discord
+              </a>
+            </li>
+            <li className="flex items-center gap-2">
+              <X size={16} className="text-blue-400" />
+              <a
+                href="https://x.com/ToKasa_RWA"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                X
+              </a>
+            </li>
+            <li className="flex items-center gap-2">
+              <Send size={16} className="text-blue-400" />
+              <a
+                href="https://t.me/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                Telegram
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -56,29 +110,12 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Your email"
-                className="
-                  w-full pl-10 pr-4 py-2
-                  bg-blue-800 bg-opacity-30
-                  placeholder-blue-300
-                  text-white text-sm
-                  rounded-full
-                  focus:outline-none focus:ring-2 focus:ring-indigo-500
-                  transition
-                "
+                className=" w-full pl-10 pr-4 py-2 bg-blue-800 bg-opacity-30 placeholder-blue-300 text-white text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition "
               />
             </div>
             <button
               type="submit"
-              className="
-                inline-flex items-center justify-center
-                px-6 py-2
-                bg-white bg-opacity-10
-                text-white text-sm font-medium
-                rounded-full
-                hover:bg-opacity-20
-                focus:outline-none focus:ring-2 focus:ring-white
-                transition
-              "
+              className="  inline-flex items-center justify-center  px-6 py-2  bg-white bg-opacity-10  text-white text-sm font-medium  rounded-full  hover:bg-opacity-20  focus:outline-none focus:ring-2 focus:ring-white  transition  "
             >
               Subscribe
             </button>

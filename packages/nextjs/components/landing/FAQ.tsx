@@ -5,7 +5,10 @@ import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { useId } from 'react';
 import { motion, Variants } from 'framer-motion';
 
-type FAQ = { question: string; answer: string };
+type FAQ = {
+  question: string;
+  answer: string;
+};
 
 const faqs: FAQ[] = [
   {
@@ -40,23 +43,14 @@ const faqs: FAQ[] = [
   },
 ];
 
-const containerVariants: Variants = {
+const sectionVariants: Variants = {
   hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.15,
-      ease: 'easeOut',
-    },
-  },
+  show: { transition: { staggerChildren: 0.15, ease: 'easeOut' } },
 };
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
 export default function FAQSection() {
@@ -69,21 +63,19 @@ export default function FAQSection() {
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.3 }}
-      variants={containerVariants}
+      variants={sectionVariants}
     >
-      <motion.h2
-        variants={itemVariants}
-        className="text-center text-4xl font-extrabold text-blue-900 mb-4"
-      >
-        Frequently Asked Questions
-      </motion.h2>
-      <motion.p
-        variants={itemVariants}
-        className="text-center text-neutral-600 max-w-2xl mx-auto mb-12"
-      >
-        Find answers to common questions about ToKasa and our tokenization platform.
-      </motion.p>
+      
+      <motion.div variants={itemVariants} className="text-center max-w-2xl mx-auto mb-12">
+        <h2 className="text-4xl font-extrabold text-blue-900 mb-4">
+          Frequently Asked Questions
+        </h2>
+        <p className="text-neutral-600">
+          Find answers to common questions about ToKasa and our tokenization platform.
+        </p>
+      </motion.div>
 
+      {/* List FAQs */}
       <div className="max-w-2xl mx-auto space-y-4">
         {faqs.map((faq, idx) => (
           <motion.div key={idx} variants={itemVariants}>
@@ -91,20 +83,20 @@ export default function FAQSection() {
               {({ open }) => (
                 <div className="border border-neutral-200 rounded-2xl overflow-hidden shadow-sm">
                   <Disclosure.Button
-                    className="w-full flex items-center justify-between px-6 py-4 bg-white hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
+                    className="  w-full flex items-center justify-between  px-6 py-4 bg-white  hover:bg-neutral-50  focus:outline-none focus:ring-2 focus:ring-blue-300  transition  "
                     aria-controls={`${id}-panel-${idx}`}
                     id={`${id}-button-${idx}`}
                   >
                     <span className="font-medium text-blue-900">{faq.question}</span>
                     <ChevronUpIcon
-                      className={`w-5 h-5 text-neutral-400 transform transition-transform duration-200 ${
-                        open ? 'rotate-180' : ''
-                      }`}
+                      className={`
+                        w-5 h-5 text-neutral-400 transform transition-transform duration-200
+                        ${open ? 'rotate-180' : ''}
+                      `}
                     />
                   </Disclosure.Button>
 
                   <Transition
-                    show={open}
                     enter="transition ease-out duration-300"
                     enterFrom="opacity-0 -translate-y-2"
                     enterTo="opacity-100 translate-y-0"

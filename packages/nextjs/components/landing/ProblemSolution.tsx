@@ -46,14 +46,7 @@ export default function ProblemSolutionSection() {
         <motion.div
           variants={itemVariants}
           whileHover={{ scale: 1.03, boxShadow: '0 15px 30px rgba(0,0,0,0.1)' }}
-          className="
-            bg-white 
-            rounded-2xl
-            p-10
-            flex flex-col
-            transition-transform
-            shadow-lg
-          "
+          className="  bg-white   rounded-2xl  p-10  flex flex-col  transition-transform  shadow-lg  "
         >
           <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-6">
             <AlertCircle className="text-blue-900" size={28} />
@@ -72,14 +65,7 @@ export default function ProblemSolutionSection() {
         <motion.div
           variants={itemVariants}
           whileHover={{ scale: 1.03, boxShadow: '0 15px 30px rgba(0,0,0,0.1)' }}
-          className="
-            bg-white 
-            rounded-2xl
-            p-10
-            flex flex-col
-            transition-transform
-            shadow-lg
-          "
+          className="  bg-white   rounded-2xl  p-10  flex flex-col  transition-transform  shadow-lg  "
         >
           <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-6">
             <CheckCircle className="text-blue-900" size={28} />

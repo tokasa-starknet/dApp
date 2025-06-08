@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import Header from '~~/components/landing/Header';
 import HeroSection from '~~/components/landing/HeroSection';
 import DualTokenEcosystem from '~~/components/landing/DualTokenEcosystem';
-import TokenEcosystem from '~~/components/landing/TokenEcosystem';
 import WhatIsToKasa from '~~/components/landing/WhatIsToKasa';
 import BenefitsSection from '~~/components/landing/BenefitsSection';
 import HowItWorks from '~~/components/landing/HowItWorks';
@@ -50,7 +49,6 @@ export default function LandingPage() {
         <HowItWorks />
         <WhyChooseUs />
         <Roadmap />
-        <TokenEcosystem />
         <JoinCommunity />
         <FAQ />
       </main>

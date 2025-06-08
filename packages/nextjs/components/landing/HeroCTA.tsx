@@ -1,5 +1,4 @@
-// packages/nextjs/components/landing/HeroCTA.tsx
-
+'use client';
 import { ArrowRight, ExternalLink } from "lucide-react";
 
 export default function HeroCTA() {

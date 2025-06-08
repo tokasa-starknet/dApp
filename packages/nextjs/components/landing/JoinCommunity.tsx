@@ -1,7 +1,7 @@
 'use client';
 
+import { X, Send } from 'lucide-react';
 import { SiDiscord } from 'react-icons/si';
-import { Twitter, Send } from 'lucide-react';
 import { motion, Variants } from 'framer-motion';
 
 const sectionVariants: Variants = {
@@ -26,19 +26,19 @@ const itemVariants: Variants = {
 const ctas = [
   {
     label: 'Join Discord',
-    href: 'https://discord.gg/tu-servidor',
-    gradient: 'from-indigo-500 via-purple-500 to-pink-500',
+    href: 'https://discord.gg/', // reemplaza con tu enlace real
+    gradient: 'from-indigo-500 to-purple-600',
     Icon: SiDiscord,
   },
   {
-    label: 'Follow on Twitter',
-    href: 'https://twitter.com/tu-handle',
-    gradient: 'from-blue-400 via-blue-500 to-blue-700',
-    Icon: Twitter,
+    label: 'Follow on X',
+    href: 'https://x.com/ToKasa_RWA',
+    gradient: 'from-gray-800 to-black',
+    Icon: X,
   },
   {
     label: 'Join Telegram',
-    href: 'https://t.me/tu-canal',
+    href: 'https://t.me/',
     gradient: 'from-teal-400 via-cyan-500 to-cyan-600',
     Icon: Send,
   },
@@ -48,12 +48,7 @@ export default function JoinCommunity() {
   return (
     <motion.section
       id="join-community"
-      className="
-        bg-gradient-to-br from-[#0A1E3F] to-[#2B4E9C]
-        text-white snap-start min-h-screen
-        flex flex-col items-center justify-center
-        py-20 px-4 sm:px-8 lg:px-16 text-center
-      "
+      className="  bg-gradient-to-br from-[#0A1E3F] to-[#2B4E9C]  text-white snap-start min-h-screen  flex flex-col items-center justify-center  py-20 px-4 sm:px-8 lg:px-16 text-center  "
       variants={sectionVariants}
       initial="hidden"
       whileInView="show"
@@ -70,7 +65,7 @@ export default function JoinCommunity() {
       {/* Subheading */}
       <motion.p
         variants={itemVariants}
-        className="text-base sm:text-lg text-white/80 max-w-2xl mb-12"
+        className="text-base sm:text-lg text-white/80 max-w-2xl mb-12 leading-relaxed"
       >
         Connect with us and be part of the future of real estate investment.
         Join thousands of investors, property owners, and travelers.
@@ -79,7 +74,7 @@ export default function JoinCommunity() {
       {/* CTA Buttons */}
       <motion.div
         variants={sectionVariants}
-        className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12 w-full max-w-lg"
+        className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12 w-full max-w-md"
       >
         {ctas.map(({ label, href, gradient, Icon }) => (
           <motion.a
@@ -88,19 +83,9 @@ export default function JoinCommunity() {
             target="_blank"
             rel="noopener noreferrer"
             variants={itemVariants}
-            whileHover={{ scale: 1.05, boxShadow: '0 8px 16px rgba(0,0,0,0.2)' }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`
-              inline-flex items-center justify-center
-              w-44 h-12
-              bg-gradient-to-r ${gradient}
-              text-white text-sm font-medium
-              rounded-full
-              shadow-md
-              hover:shadow-xl
-              focus:outline-none focus:ring-4 focus:ring-white/30
-              transition-all
-            `}
+            className={`  inline-flex items-center justify-center  w-40 h-10  bg-gradient-to-r ${gradient}  text-white text-sm font-semibold  rounded-full  shadow-lg hover:shadow-2xl  focus:outline-none focus:ring-4 focus:ring-white/30  transition-all duration-200 `}
           >
             <Icon className="mr-2" size={18} />
             {label}

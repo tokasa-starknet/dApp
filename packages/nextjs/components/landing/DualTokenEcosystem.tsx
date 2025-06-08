@@ -29,12 +29,12 @@ export default function DualTokenEcosystem() {
       letter: 'K',
       title: 'Kasa Token',
       description:
-        'Asset-backed tokens directly linked to property value, generating passive yield from rental income and property appreciation.',
+        'Property–backed asset tokens that generate passive yield via quarterly rental income and long-term appreciation.',
       features: [
-        'Backed by real estate assets',
+        '100% backed by real estate assets',
         'Quarterly dividend distributions',
-        'Appreciation tied to property value',
-        'Tradeable on secondary markets',
+        'Value tied directly to property performance',
+        'Tradable on 24/7 secondary markets',
       ],
     },
     {
@@ -42,12 +42,12 @@ export default function DualTokenEcosystem() {
       letter: 'T',
       title: 'ToKa Token',
       description:
-        'Utility token powering the ecosystem, used for rewards, payments, governance, and accessing premium features.',
+        'Utility token for payments, staking, governance and exclusive guest perks, driving platform adoption and community rewards.',
       features: [
         'Governance voting rights',
-        'Discounts on booking and transaction fees',
-        'Access to premium features and experiences',
-        'Staking rewards and loyalty benefits',
+        'Discounts on booking & transaction fees',
+        'Access to premium features & experiences',
+        'Staking rewards and loyalty bonuses',
       ],
     },
   ];
@@ -55,13 +55,7 @@ export default function DualTokenEcosystem() {
   return (
     <section
       id="dual-token-ecosystem"
-      className="
-        bg-gradient-to-br from-[#0A1E3F] to-[#2B4E9C]
-        text-white
-        min-h-screen snap-start
-        flex flex-col items-center justify-center
-        py-20 px-4 sm:px-8 lg:px-16
-      "
+      className="bg-gradient-to-br from-[#0A1E3F] to-[#2B4E9C]text-whitemin-h-screen snap-startflex flex-col items-center justify-centerpy-20 px-4 sm:px-8 lg:px-16"
     >
       <motion.div
         initial="hidden"
@@ -74,13 +68,14 @@ export default function DualTokenEcosystem() {
           variants={cardVariants}
           className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4"
         >
-          Dual Token Ecosystem
+          Dual-Token Ecosystem
         </motion.h2>
         <motion.p
           variants={cardVariants}
           className="text-base sm:text-lg text-white/80 mb-12"
         >
-          Our innovative dual token system creates a sustainable economy for all participants
+          Kasa delivers property-backed yields, while ToKa powers payments, staking and guest rewards—together creating liquidity,
+          governance & benefits for every participant.
         </motion.p>
 
         <motion.div
@@ -92,23 +87,18 @@ export default function DualTokenEcosystem() {
               key={id}
               variants={cardVariants}
               whileHover={{ y: -5, boxShadow: '0 20px 30px rgba(0,0,0,0.3)' }}
-              className="
-                relative
-                bg-white/10
-                border border-white/20
-                rounded-2xl
-                p-8
-                flex flex-col
-                transition-shadow cursor-pointer
-              "
+              className="  relative  bg-white/10  border border-white/20  rounded-2xl  p-8  flex flex-col  transition-shadow cursor-pointer  "
             >
               {/* Letter badge */}
-              <div className="absolute -top-6 left-8 w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-white text-lg font-bold">
+              <div className="absolute -top-6 left-8 w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-blue-900 text-lg font-bold">
                 {letter}
               </div>
 
-              <h3 className="mt-8 text-2xl font-semibold mb-4">{title}</h3>
+              {/* Title & Description */}
+              <h3 className="mt-8 text-2xl font-semibold text-white mb-4">{title}</h3>
               <p className="text-white/80 mb-6">{description}</p>
+
+              {/* Features */}
               <ul className="space-y-3">
                 {features.map((feat) => (
                   <li key={feat} className="flex items-start gap-2">

@@ -73,7 +73,7 @@ export default function WhyChooseUs() {
         variants={cardVariants}
         className="text-base sm:text-lg text-neutral-600 mb-12 max-w-2xl"
       >
-        Built on the principles of security, transparency, and community-driven innovation
+        Built on the principles of security, transparency, and community-driven innovation.
       </motion.p>
 
       {/* Cards */}
@@ -85,17 +85,18 @@ export default function WhyChooseUs() {
           <motion.div
             key={title}
             variants={cardVariants}
-            whileHover={{ y: -5, boxShadow: '0 15px 25px rgba(0,0,0,0.05)' }}
+            whileHover={{ scale: 1.03, boxShadow: '0 15px 30px rgba(0,0,0,0.1)' }}
             className="
-              bg-white rounded-2xl shadow-lg p-8
+              bg-white rounded-2xl shadow-lg p-10
               flex flex-col items-center
-              transition-shadow cursor-pointer
+              transition-transform
+              cursor-pointer
             "
           >
-            <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-              <Icon className="text-blue-900" size={24} />
+            <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-6">
+              <Icon className="text-blue-900" size={28} />
             </div>
-            <h3 className="text-xl font-semibold text-blue-900 mb-2">{title}</h3>
+            <h3 className="text-xl font-semibold text-blue-900 mb-3">{title}</h3>
             <p className="text-sm text-neutral-600">{text}</p>
           </motion.div>
         ))}
