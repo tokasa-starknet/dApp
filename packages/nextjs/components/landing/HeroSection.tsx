@@ -22,10 +22,10 @@ export default function HeroSection() {
             transition={{ duration: 0.7 }}
           >
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-blue-900 tracking-tight leading-tight">
-              Tokenizing Vacation Properties
+              Democratizing Vacation Rental Investments
             </h1>
             <p className="text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed">
-              Invest, host, and earn through a decentralized real estate ecosystem.
+              Fractional ownership, passive rental income & exclusive guest benefits.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <motion.a

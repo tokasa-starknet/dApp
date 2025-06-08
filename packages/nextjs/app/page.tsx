@@ -15,6 +15,10 @@ import Roadmap from '~~/components/landing/Roadmap';
 import JoinCommunity from '~~/components/landing/JoinCommunity';
 import FAQ from '~~/components/landing/FAQ';
 import Footer from '~~/components/landing/Footer';
+import ProblemSolutionSection from '~~/components/landing/ProblemSolution'; 
+
+
+
 
 export default function LandingPage() {
   const pathname = usePathname(); // ② hook para detectar ruta
@@ -39,13 +43,14 @@ export default function LandingPage() {
 
       <main className="overflow-y-auto">
         <HeroSection />
-        <TokenEcosystem />
+        <ProblemSolutionSection />
         <WhatIsToKasa />
         <BenefitsSection />
         <DualTokenEcosystem />
         <HowItWorks />
         <WhyChooseUs />
         <Roadmap />
+        <TokenEcosystem />
         <JoinCommunity />
         <FAQ />
       </main>
