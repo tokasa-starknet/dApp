@@ -55,8 +55,17 @@ export default function DualTokenEcosystem() {
   return (
     <section
       id="dual-token-ecosystem"
-      className="bg-gradient-to-br from-[#0A1E3F] to-[#2B4E9C]text-whitemin-h-screen snap-startflex flex-col items-center justify-centerpy-20 px-4 sm:px-8 lg:px-16"
+      className="
+    bg-gradient-to-br from-[#0A1E3F] to-[#2B4E9C]
+    text-white
+    min-h-screen
+    snap-start
+    flex flex-col items-center justify-center
+    py-20
+    px-4 sm:px-8 lg:px-16
+  "
     >
+
       <motion.div
         initial="hidden"
         whileInView="show"
