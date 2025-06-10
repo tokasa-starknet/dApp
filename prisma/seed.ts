@@ -6,6 +6,8 @@ async function main() {
   await prisma.property.deleteMany({});
   await prisma.owner.deleteMany({});
   await prisma.investor.deleteMany({});
+  await prisma.propertyToken.deleteMany({});
+  await prisma.soulboundNft.deleteMany({});
 
   // Seed Owners
   const owners = await prisma.$transaction([
@@ -78,6 +80,50 @@ async function main() {
   for (const property of properties) {
     await prisma.property.create({ data: property });
   }
+
+  // Seed PropertyToken
+  await prisma.propertyToken.create({
+    data: {
+      property_id: (await prisma.property.findFirst({ where: { title: 'Modern Loft in Manhattan' } }))?.id!,
+      token_contract_address: '0xTokenContract01',
+      owner_wallet_address: owners[0].wallet_address,
+      property_value: 825000.00,
+      tokenization_percentage: 35,
+      total_token_supply: BigInt(350000),
+      token_price: 0.85,
+      distribution_model: 'Fixed',
+      legal_document_hash: 'QmLegalDocToken1',
+      metadata_uri: 'ipfs://QmMetadataToken1',
+      royalty_percentage: 5,
+      minimum_lock_period: 90,
+      expected_annual_yield: 8,
+      images: {
+        urls: ['https://example.com/token1-image1.jpg']
+      },
+      amenities: {
+        extras: ['rooftop', 'gym']
+      },
+      terms_accepted: true,
+      creation_tx_hash: '0xCreationTxHash01',
+      creation_timestamp: new Date('2025-01-01T10:00:00Z'),
+      is_active: true
+    }
+  });
+
+  // Seed SoulboundNft
+  await prisma.soulboundNft.create({
+    data: {
+      nft_id_onchain: BigInt(1),
+      property_id: (await prisma.property.findFirst({ where: { title: 'Modern Loft in Manhattan' } }))?.id!,
+      owner_wallet_address: owners[0].wallet_address,
+      owner_profile_id: owners[0].id,
+      token_contract_address: '0xSoulboundContract01',
+      metadata_uri: 'ipfs://QmSoulboundMetadata1',
+      metadata_hash: 'QmHash123',
+      issue_tx_hash: '0xIssueTxHash01',
+      issued_at_onchain: new Date('2025-01-05T15:00:00Z')
+    }
+  });
 
   // Seed Investors
   await prisma.investor.createMany({

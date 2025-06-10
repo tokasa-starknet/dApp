@@ -47,7 +47,7 @@ model Investor {
 }
 
 model Property {
-  id                       String          @id @default(uuid()) @db.Uuid
+  id                       String           @id @default(uuid()) @db.Uuid
   title                    String
   description              String
   address                  String
@@ -59,14 +59,59 @@ model Property {
   tokenization_percentage  Decimal
   total_tokens             Int
   price_per_token          Decimal
-  verification_status      PROPERTY_STATUS @default(Pending)
+  verification_status      PROPERTY_STATUS  @default(Pending)
   legal_docs_hash          String
   metadata_ipfs_hash       String
-  registration_tx_hash     String          @db.VarChar(200)
-  created_at               DateTime        @default(now())
-  updated_at               DateTime        @updatedAt
+  registration_tx_hash     String           @db.VarChar(200)
+  created_at               DateTime         @default(now())
+  updated_at               DateTime         @updatedAt
 
   // Relations
-  owner_id                 String          @db.Uuid
-  owner                    Owner           @relation(fields: [owner_id], references: [id])
+  owner_id                 String           @db.Uuid
+  owner                    Owner            @relation(fields: [owner_id], references: [id])
+
+  property_tokens          PropertyToken[]
+  soulbound_nfts           SoulboundNft[]
+}
+
+model PropertyToken {
+  id                       String     @id @default(uuid()) @db.Uuid
+  property_id              String     @db.Uuid
+  property                 Property   @relation(fields: [property_id], references: [id])
+  token_contract_address   String
+  owner_wallet_address     String
+  property_value           Decimal    @db.Decimal(20, 2)
+  tokenization_percentage  Int
+  total_token_supply       BigInt
+  token_price              Decimal    @db.Decimal(20, 6)
+  distribution_model       String
+  legal_document_hash      String
+  metadata_uri             String
+  royalty_percentage       Int?
+  minimum_lock_period      Int?
+  expected_annual_yield    Int?
+  images                   Json?
+  amenities                Json?
+  terms_accepted           Boolean
+  creation_tx_hash         String
+  creation_timestamp       DateTime
+  is_active                Boolean
+  created_at               DateTime   @default(now())
+  updated_at               DateTime   @updatedAt
+}
+
+model SoulboundNft {
+  id                       String     @id @default(uuid()) @db.Uuid
+  nft_id_onchain           BigInt     @unique
+  property_id              String     @db.Uuid
+  property                 Property   @relation(fields: [property_id], references: [id])
+  owner_wallet_address     String
+  owner_profile_id         String?    @db.Uuid
+  token_contract_address   String
+  metadata_uri             String
+  metadata_hash            String
+  issue_tx_hash            String
+  issued_at_onchain        DateTime
+  created_at               DateTime   @default(now())
+  updated_at               DateTime   @updatedAt
 }
