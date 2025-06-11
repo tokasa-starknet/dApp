@@ -1,13 +1,46 @@
 import { PrismaClient, PROPERTY_STATUS } from '@prisma/client';
-import { v4 as uuidv4 } from 'uuid';
 
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.property.deleteMany({});
+  await prisma.owner.deleteMany({});
+  await prisma.investor.deleteMany({});
+  await prisma.propertyToken.deleteMany({});
+  await prisma.soulboundNft.deleteMany({});
 
-const properties = [
+  // Seed Owners
+  const owners = await prisma.$transaction([
+    prisma.owner.create({
+      data: {
+        wallet_address: '0xowner1',
+        full_name: 'Alice Rivera',
+        email: 'alice@tokasa.com',
+        phone_number: '88887777',
+        nationality: 'Costa Rican',
+        date_of_birth: new Date('1985-03-15'),
+        kyc_doc_hash: 'QmABC123owner1',
+        registration_tx_hash: '0xOWNER1TXHASH',
+      }
+    }),
+    prisma.owner.create({
+      data: {
+        wallet_address: '0xowner2',
+        full_name: 'Bob Nakamoto',
+        email: 'bob@tokasa.com',
+        phone_number: '89998888',
+        nationality: 'Japanese',
+        date_of_birth: new Date('1979-09-01'),
+        kyc_doc_hash: 'QmABC123owner2',
+        registration_tx_hash: '0xOWNER2TXHASH',
+      }
+    })
+  ]);
+
+  // Seed Properties (relacionados con los Owners)
+  const properties = [
     {
-      owner_id: uuidv4().substring(0, 12),
+      owner_id: owners[0].id,
       title: 'Modern Loft in Manhattan',
       description: 'Spacious loft with industrial design and city views',
       address: '456 Broadway, New York, NY 10013',
@@ -22,12 +55,10 @@ const properties = [
       verification_status: PROPERTY_STATUS.Verified,
       legal_docs_hash: 'QmRzT9J9fZ4vKqYwvXHJnKq3WKnFiJnKLwHCnL72vedxjQk',
       metadata_ipfs_hash: 'QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdH',
-      registration_tx_hash: '0x81D7656EC7ab88b098defB751B7401B5f6d8976G',
-      created_at: new Date(),
-      updated_at: new Date()
+      registration_tx_hash: '0x81D7656EC7ab88b098defB751B7401B5f6d8976G'
     },
     {
-      owner_id: uuidv4().substring(0, 12),
+      owner_id: owners[1].id,
       title: 'Luxury Penthouse in Midtown',
       description: 'Elegant penthouse with panoramic cityscape views',
       address: '789 5th Ave, New York, NY 10019',
@@ -42,81 +73,84 @@ const properties = [
       verification_status: PROPERTY_STATUS.Pending,
       legal_docs_hash: 'QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6ucP',
       metadata_ipfs_hash: 'QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdK',
-      registration_tx_hash: '0x91E7656EC7ab88b098defB751B7401B5f6d8976H',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      owner_id: uuidv4().substring(0, 12),
-      title: 'Chic Condo in Brooklyn Heights',
-      description: 'Renovated condo with modern finishes and river views',
-      address: '101 Clark St, Brooklyn, NY 11201',
-      latitude: 40.6954,
-      longitude: -73.9933,
-      area_sqm: 78.9,
-      amenities: ['laundry room', 'bike storage', 'common garden'],
-      estimated_value: 650000.00,
-      tokenization_percentage: 50.0,
-      total_tokens: 325000,
-      price_per_token: 0.50,
-      verification_status: PROPERTY_STATUS.Verified,
-      legal_docs_hash: 'QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6ucQ',
-      metadata_ipfs_hash: 'QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdL',
-      registration_tx_hash: '0x01F7656EC7ab88b098defB751B7401B5f6d8976I',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      owner_id: uuidv4().substring(0, 12),
-      title: 'Historic Townhouse in Greenwich Village',
-      description: 'Charming 19th century townhouse with original details',
-      address: '22 Jones St, New York, NY 10014',
-      latitude: 40.7336,
-      longitude: -74.0027,
-      area_sqm: 185.0,
-      amenities: ['private backyard', 'fireplace', 'home office'],
-      estimated_value: 950000.00,
-      tokenization_percentage: 30.0,
-      total_tokens: 285000,
-      price_per_token: 0.95,
-      verification_status: PROPERTY_STATUS.Rejected,
-      legal_docs_hash: 'QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6ucR',
-      metadata_ipfs_hash: 'QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdM',
-      registration_tx_hash: '0x11G7656EC7ab88b098defB751B7401B5f6d8976J',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      owner_id: uuidv4().substring(0, 12),
-      title: 'Waterfront Apartment in Long Island City',
-      description: 'Contemporary apartment with stunning East River views',
-      address: '45-50 Center Blvd, Queens, NY 11109',
-      latitude: 40.7479,
-      longitude: -73.9587,
-      area_sqm: 110.4,
-      amenities: ['pool', 'parking', 'pet-friendly'],
-      estimated_value: 880000.00,
-      tokenization_percentage: 45.0,
-      total_tokens: 396000,
-      price_per_token: 0.75,
-      verification_status: PROPERTY_STATUS.Verified,
-      legal_docs_hash: 'QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6ucS',
-      metadata_ipfs_hash: 'QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdN',
-      registration_tx_hash: '0x21H7656EC7ab88b098defB751B7401B5f6d8976K',
-      created_at: new Date(),
-      updated_at: new Date()
+      registration_tx_hash: '0x91E7656EC7ab88b098defB751B7401B5f6d8976H'
     }
-];
-
-  await prisma.property.deleteMany({});
+  ];
 
   for (const property of properties) {
-    await prisma.property.create({
-      data: property
-    });
+    await prisma.property.create({ data: property });
   }
 
-  console.log('Seed completed!');
+  // Seed PropertyToken
+  await prisma.propertyToken.create({
+    data: {
+      property_id: (await prisma.property.findFirst({ where: { title: 'Modern Loft in Manhattan' } }))?.id!,
+      token_contract_address: '0xTokenContract01',
+      owner_wallet_address: owners[0].wallet_address,
+      property_value: 825000.00,
+      tokenization_percentage: 35,
+      total_token_supply: BigInt(350000),
+      token_price: 0.85,
+      distribution_model: 'Fixed',
+      legal_document_hash: 'QmLegalDocToken1',
+      metadata_uri: 'ipfs://QmMetadataToken1',
+      royalty_percentage: 5,
+      minimum_lock_period: 90,
+      expected_annual_yield: 8,
+      images: {
+        urls: ['https://example.com/token1-image1.jpg']
+      },
+      amenities: {
+        extras: ['rooftop', 'gym']
+      },
+      terms_accepted: true,
+      creation_tx_hash: '0xCreationTxHash01',
+      creation_timestamp: new Date('2025-01-01T10:00:00Z'),
+      is_active: true
+    }
+  });
+
+  // Seed SoulboundNft
+  await prisma.soulboundNft.create({
+    data: {
+      nft_id_onchain: BigInt(1),
+      property_id: (await prisma.property.findFirst({ where: { title: 'Modern Loft in Manhattan' } }))?.id!,
+      owner_wallet_address: owners[0].wallet_address,
+      owner_profile_id: owners[0].id,
+      token_contract_address: '0xSoulboundContract01',
+      metadata_uri: 'ipfs://QmSoulboundMetadata1',
+      metadata_hash: 'QmHash123',
+      issue_tx_hash: '0xIssueTxHash01',
+      issued_at_onchain: new Date('2025-01-05T15:00:00Z')
+    }
+  });
+
+  // Seed Investors
+  await prisma.investor.createMany({
+    data: [
+      {
+        wallet_address: '0xinvestor1',
+        full_name: 'Investor One',
+        email: 'investor1@tokasa.com',
+        kyc_status: 'Verified'
+      },
+      {
+        wallet_address: '0xinvestor2',
+        full_name: 'Investor Two',
+        email: 'investor2@tokasa.com',
+        kyc_status: 'Pending'
+      }
+    ]
+  });
+
+  console.log('✅ Seeding completed successfully.');
 }
 
-main();
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
