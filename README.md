@@ -90,7 +90,7 @@ Visit `http://localhost:3000` to see the application.
 
 #### Set up Docker container
 ```bash
-db:dev:up
+yarn db:dev:up
 
 ```
 

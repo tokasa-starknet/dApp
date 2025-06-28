@@ -8,6 +8,8 @@ async function main() {
   await prisma.investor.deleteMany({});
   await prisma.propertyToken.deleteMany({});
   await prisma.soulboundNft.deleteMany({});
+  await prisma.catalog.deleteMany({});
+  await prisma.generalParameters.deleteMany({});
 
   // Seed Owners
   const owners = await prisma.$transaction([
@@ -143,8 +145,49 @@ async function main() {
     ]
   });
 
+  await prisma.catalog.createMany({
+    data: [
+      {
+        name: "Clean Asset",
+        description: "Main Assets for cleanning",
+        active: true
+      },
+      {
+        name: "Properties",
+        description: "Main properties of CR",
+        active: false
+      },
+      {
+        name: "KYC Status",
+        description: "KYC process states",
+        active: true
+      }
+    ]
+  });
+
+  await prisma.generalParameters.createMany({
+    data: [
+      {
+        catalog_id: 1,
+        code: "CR992-X",
+        value: "10",
+        description: "Maximum number of assets per user",
+        order: 1
+      },
+      {
+        catalog_id: 2,
+        code: "AL221-A",
+        value: "Residential Property",
+        description: "House or apartment for residential use",
+        order: 2
+      }
+    ]
+  });
+
   console.log('✅ Seeding completed successfully.');
 }
+
+
 
 main()
   .catch((e) => {
