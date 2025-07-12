@@ -218,23 +218,4 @@ use super::*;
     
     }
     
-    // Remove this implementation since AccessControlImpl already provides these functions
-    // #[abi(embed_v0)]
-    // impl ToKaAccessControlImpl of IToKaAccessControl<ContractState> {
-    //     fn grant_role(ref self: ContractState, role: felt252, account: ContractAddress) {
-    //         self.accesscontrol.grant_role(role, account);
-    //     }
-    //     
-    //     fn revoke_role(ref self: ContractState, role: felt252, account: ContractAddress) {
-    //         self.accesscontrol.revoke_role(role, account);
-    //     }
-    //     
-    //     fn has_role(self: @ContractState, role: felt252, account: ContractAddress) -> bool {
-    //         self.accesscontrol.has_role(role, account)
-    //     }
-    //     
-    //     fn get_role_admin(self: @ContractState, role: felt252) -> felt252 {
-    //         self.accesscontrol.get_role_admin(role)
-    //     }
-    // }
 }
